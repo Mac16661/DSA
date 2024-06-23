@@ -1,0 +1,3 @@
+$ git branch -M main
+$ git remote add origin https://github.com/Mac16661/DSA.git
+$ git push -u origin main
