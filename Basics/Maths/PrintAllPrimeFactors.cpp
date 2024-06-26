@@ -31,7 +31,20 @@ void PrintPrime(int n){
     cout<<endl;
 }
 
+void PrintPrimeOptimal(int n) {
+    for(int i=2; i<=sqrt(n); i++){
+        if(n%i == 0) cout<<i<<" ";
+
+        while(n%i == 0) {
+            n = n/i;
+        }
+    }
+
+    if(n!= 1) cout<<n<<endl;
+}
+
 int main() {
-    PrintPrime(780);
+    // PrintPrime(780);
+    PrintPrimeOptimal(780);
     return 0;
 } 
