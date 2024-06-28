@@ -7,18 +7,20 @@ void GenParenthesis(int pos, int n, int open, int close) {
     if(close == n) {
         cout<<s<<endl;
         return;
-    }else{
-
-        if(open > close) { //we have extra open parenthesis
-            s[pos] = '}';
-            GenParenthesis(pos+1, n, open, close+1);
-        }
-
-        if(open < n) {
-            s[pos] = '{';
-            GenParenthesis(pos+1, n, open+1, close);
-        }
     }
+
+    if(open < n) {
+        s[pos] = '{';
+        GenParenthesis(pos+1, n, open+1, close);
+    }
+
+    if(open > close) { //we have extra open parenthesis
+        s[pos] = '}';
+        GenParenthesis(pos+1, n, open, close+1);
+    }
+    
+    
+    
 }
 
 int main() {
