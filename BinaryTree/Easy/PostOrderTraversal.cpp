@@ -27,7 +27,7 @@ void postOrder(Node* root) {
         // Pushing root into the stack 2
         st2.push(root);
 
-        //If root have children push it into stack1 and in next iter push it into stack2
+        //If root have children push it into stack1 and in next iter push it into stack1
         if(root->left) st1.push(root->left);
         if(root->right) st1.push(root->right);
     }
