@@ -1,36 +1,32 @@
 class Solution {
 public:
-    int search(vector<int>& arr, int k) {
-        int n = arr.size();
-        int low = 0, high = n - 1;
-    while (low <= high) {
-        int mid = (low + high) / 2;
+    int search(vector<int>& nums, int target) {
+        int low = 0;
+        int high = nums.size()-1;
 
-        //if mid points the target
-        if (arr[mid] == k) return mid;
+        while(low<=high){
+            int mid = (low+high) /2;
 
-        //if left part is sorted:
-        if (arr[low] <= arr[mid]) {
-            if (arr[low] <= k && k <= arr[mid]) {
-                //element exists:
-                high = mid - 1;
-            }
-            else {
-                //element does not exist:
-                low = mid + 1;
+            if(nums[mid] == target) return mid;
+
+            // If left side is sorted
+            if(nums[low] <= nums[mid]){
+                if(nums[low] <= target && target<= nums[mid] ){
+                    high = mid -1;
+                }else{
+                    low = mid+1;
+                }
+
+            }else{ // If right side is sorted
+
+                if(nums[mid] <= target && target <= nums[high] ){
+                    low = mid+1;
+                }else{
+                    high = mid -1;
+                }
             }
         }
-        else { //if right part is sorted:
-            if (arr[mid] <= k && k <= arr[high]) {
-                //element exists:
-                low = mid + 1;
-            }
-            else {
-                //element does not exist:
-                high = mid - 1;
-            }
-        }
-    }
-    return -1;
+
+        return -1;
     }
 };
