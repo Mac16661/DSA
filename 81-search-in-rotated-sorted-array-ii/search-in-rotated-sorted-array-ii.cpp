@@ -12,11 +12,10 @@ public:
             if(nums[low]==nums[mid] && nums[mid]==nums[high]){
                 high--;
                 low++;
-                continue;
             }
 
             // If left is sorted
-            if(nums[low] <= nums[mid]) {
+            else if(nums[low] <= nums[mid]) {
                 // if target lies b/w low and mid
                 if(nums[low] <= target && target <= nums[mid]){
                     high = mid-1;
