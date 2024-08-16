@@ -13,39 +13,34 @@ struct Node {
 };
 
 class Solution{
-public:
-    void LeftView(Node* root, vector<int> &res) {
-        stack<int> st;
-        while(root) {
-            st.push(root->data);
-            root= root->left;
+    public:
+        vector<int> bottomView(Node* root) {
+            vector<int> ans;
+            if(root == NULL) return ans;
+
+            map<int,int> mpp;
+            queue<pair<Node*, int>> q;
+            q.push({root, 0});
+            while(!q.empty()) {
+                auto it = q.front();
+                q.pop();
+                Node* node = it.first;
+                int line = it.second;
+                mpp[line] = node->data;
+
+                if(node->left != NULL) {
+                    q.push({node->left, line-1});
+                }
+
+                if(node->right != NULL) {
+                    q.push({node->right, line+1});
+                }
+            }
+            for(auto it : mpp) {
+                ans.push_back(it.second);
+            }
+            return ans;
         }
-
-        while(!st.empty()){
-            res.push_back(st.top());
-            st.pop();
-        }
-    }
-
-    void RightView(Node* root, vector<int> &res) {
-        while(root){
-            res.push_back(root->data);
-            root = root->right;
-        }
-    }
-
-    vector<int> topView(Node* root){
-        vector<int> res;
-        if(root == NULL) return res;
-
-        //topLeft
-        LeftView(root, res);
-
-        //topRight
-        RightView(root->right, res);
-
-        return res;
-    }
 };
 
 int main() {
@@ -62,8 +57,7 @@ int main() {
     Solution solution;
 
     // Get the top view traversal
-    vector<int> topView =
-                    solution.topView(root);
+    vector<int> topView = solution.bottomView(root);
 
     // Print the result
     cout << "Top View Traversal: "<< endl;
