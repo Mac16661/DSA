@@ -15,18 +15,19 @@ public:
         if(root == NULL) return 0;
 
         int left = helper(root->left);
-        if(left == -1) return -1;
-
         int right = helper(root->right);
-        if(right == -1) return -1;
 
-        if (abs(left - right) > 1) return -1;
-        return max(left,right) + 1;
+        if(left == -1 || right == -1 || abs(left-right) > 1) {
+            return -1;
+        }
+
+        return max(left,right) +1;
     }
 
     bool isBalanced(TreeNode* root) {
-        if(helper(root) == -1) return false;
+        int res = helper(root);
 
-        return true;
+        if (res == -1) return false;
+        else return true;
     }
 };
