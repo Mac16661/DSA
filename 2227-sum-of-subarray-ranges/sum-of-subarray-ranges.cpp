@@ -1,21 +1,27 @@
 #define ll long long
 class Solution {
 public:
+    // optimal
     long long subArrayRanges(vector<int>& nums) {
         ll sum = 0;
         int n = nums.size();
 
-        for(int i = 0; i < n; i++) {
-            int minVal = INT_MAX;
-            int maxVal = INT_MIN;
+        for(int i=0; i<n; i++){
+            int sml = nums[i];
+            int lrg = nums[i];
+            for(int j=i; j<n; j++){
+                if(nums[j] > lrg){
+                    lrg = nums[j];
+                }else if(nums[j] < sml) {
+                    sml = nums[j];
+                }
 
-            for(int j = i; j < n; j++) {  // Fix: Use j < n, increment j
-                minVal = min(nums[j], minVal);
-                maxVal = max(nums[j], maxVal);
-                sum += (maxVal - minVal);  // Fix: Use maxVal - minVal
+                sum += lrg - sml;
             }
+            
         }
 
+        
         return sum;
     }
 };
