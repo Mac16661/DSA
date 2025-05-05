@@ -11,22 +11,16 @@
  */
 class Solution {
 public:
-    bool isSameTree(TreeNode* p, TreeNode* q) {
-        if(p == NULL or q == NULL) {
-            if(p!=q) return false;
-            return true;
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if(root == NULL) return nullptr;
+
+        if (root->val == val){
+            return root;
         }
-
-        if(p->val != q->val) return false;
-
-        if(!isSameTree(p->left, q->left)) {
-            return false;
+        else if(root->val > val) { // left side
+            return searchBST(root->left, val);
+        }else { // right side
+            return searchBST(root->right, val);
         }
-
-        if(!isSameTree(p->right, q->right)) {
-            return false;
-        }
-
-        return true;
     }
 };

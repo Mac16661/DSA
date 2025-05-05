@@ -1,29 +1,21 @@
 class Solution {
 public:
-    int maxSubArray(vector<int>& arr) {
-    long long maxi = LONG_MIN; // maximum sum
-    long long sum = 0;
-    int n = arr.size();
+    int maxSubArray(vector<int>& nums) {
+        int maxSum = INT_MIN;
+        int n = nums.size();
+        int sum =0;
+        for(int i=0; i<n; i++) {
+            sum += nums[i];
 
-    for (int i = 0; i < n; i++) {
+            if(sum > maxSum){
+                maxSum = sum;
+            }
 
-        sum += arr[i];
-
-        if (sum > maxi) {
-            maxi = sum;
+            if(sum < 0){
+                sum = 0;
+            }
         }
 
-        // If sum < 0: discard the sum calculated
-        if (sum < 0) {
-            sum = 0;
-        }
-    }
-
-    // To consider the sum of the empty subarray
-    // uncomment the following check:
-
-    //if (maxi < 0) maxi = 0;
-
-    return maxi;
+        return maxSum;
     }
 };
