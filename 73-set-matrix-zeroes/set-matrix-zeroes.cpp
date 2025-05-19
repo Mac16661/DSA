@@ -14,23 +14,40 @@ public:
 
     }
 
+    // better approach
     void setZeroes(vector<vector<int>>& matrix) {
         int N = matrix.size();
         int M = matrix[0].size();
-        // initialize it with zero
-        // vector<vector<int>> newMat(N, (matrix, 0));
-
-        //Deep copy
-        vector<vector<int>> newMat = matrix;
+        
+        vector<int> Row(N, -1);
+        vector<int> Col(M, -1);
 
         for(int i=0; i<N; i++) {
             for(int j=0; j<M; j++) {
                 if(matrix[i][j] == 0) {
-                    setRowCol(i, j, newMat);
+                    Row[i] = 0;
+                    Col[j] = 0;
                 }
             }
         }
 
-        matrix = newMat;
+        // Setting row zero
+        for(int i=0; i<N; i++) {
+            if(Row[i] == 0) {
+                for(int j=0; j<M; j++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // Setting col zero
+        for(int j=0; j<M; j++) {
+            if(Col[j] == 0) {
+                for(int i=0; i<N; i++) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
     }
 };
