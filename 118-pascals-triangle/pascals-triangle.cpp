@@ -1,27 +1,30 @@
 class Solution {
 public:
-    //Optimal approach
-    vector<int> helper(int n) {
-        long long ans = 1;
-        vector<int> temp;
-
-        temp.push_back(ans);
-
-        for(int i=1; i<n; i++) {
-            ans = ans * (n-i);
-            ans = ans / i;
-            temp.push_back(ans);
-        }
-        return temp;
-    }
-
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int>> ans;
+        vector<vector<int>> t;
+        if(numRows == 0) return t;
 
-        for(int i=1; i<=numRows; i++) {
-            ans.push_back(helper(i));
+        t.push_back({1});
+        if(numRows == 1) {
+            return t;
         }
 
-        return ans;
+        for(int i = 1; i<numRows; i++) {
+            vector<int> temp;
+            temp.push_back(1);
+
+            // for middle numbers
+            for(int j=1; j<i; j++){
+                int a = t[i-1][j-1];
+                int b = t[i-1][j];
+
+                temp.push_back(a+b);
+            }
+
+            temp.push_back(1);
+            t.push_back(temp);
+        }
+
+        return t;
     }
 };

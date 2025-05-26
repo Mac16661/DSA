@@ -1,20 +1,19 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
+        // voting algo
         int count = 0;
-        int Element;
+        int element = -1;
 
-        for(int i=0; i<nums.size(); i++) {
+        for(auto i: nums) {
             if(count == 0) {
-                count=1;
-                Element = nums[i];
-            }else if(Element == nums[i]){
-                count++;
-            }else {
-                count--;
+                element = i;
             }
+
+            if(i == element) count++;
+            else count--;
         }
 
-        return Element;
+        return element;
     }
 };

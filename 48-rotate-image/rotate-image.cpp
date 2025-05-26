@@ -1,23 +1,15 @@
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
-        // Transpose the arr
-        for(int i=0; i<matrix.size(); i++) {
-            for(int j=0; j<i; j++) {
-                swap(matrix[i][j], matrix[j][i]);
+        vector<vector<int>> temp = matrix; //deep  copy
+
+        for(int c = 0; c<temp.size(); c++) {
+            vector<int> t;
+            for(int r = temp[0].size()-1; r>= 0; r--) {
+                t.push_back(temp[r][c]);
             }
+            matrix[c] = t;
         }
 
-        // Reverse each row
-        for(int i=0; i<matrix.size(); i++) {
-            int left=0,right=matrix[0].size()-1;
-
-            while(left < right) {
-                swap(matrix[i][left], matrix[i][right]);
-                right--;
-                left++;
-            }
-
-        }
     }
 };
