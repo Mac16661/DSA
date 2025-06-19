@@ -10,21 +10,19 @@
  */
 class Solution {
 public:
-    ListNode* helper(ListNode* head, ListNode* prev) {
-        if(head->next == nullptr){
-            head->next = prev;
-            return head;
-        }
-
-        ListNode* newNode = helper(head->next, head);
-        head->next = prev;
-
-        return newNode;
-    }
-    
     ListNode* reverseList(ListNode* head) {
         if(head == nullptr) return head;
 
-        return helper(head,  nullptr); 
+        ListNode* prev = nullptr;
+        ListNode* current = head;
+
+        while(current != nullptr) {
+            ListNode* temp = current->next;
+            current->next = prev;
+            prev =  current;
+            current = temp;
+        }
+
+        return prev;
     }
 };
