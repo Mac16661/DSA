@@ -1,25 +1,56 @@
 class Solution {
 public:
+    // CAN BE SOLVED BY PRFIX/SUFFIX SUM OR MONTONIC STACK
+    // int trap(vector<int>& height) {
+    //     int n = height.size() - 1;
+    //     int ans = 0;
+
+    //     // not counting 0th and nth element
+    //     for(int i=1; i<n; i++) {
+    //         // for current node we need to calculate maxHeight->leftside & maxHeight->rightside.
+    //         int rightMax = 0;
+    //         for(int r=i; r<n+1; r++){
+    //             rightMax = max(rightMax, height[r]);
+    //         }
+
+    //         int leftMax = 0;
+    //         for(int l=i; l>=0; l--){
+    //             leftMax = max(leftMax, height[l]);
+    //         }
+
+    //         int minWater = min(rightMax, leftMax);
+    //         ans += minWater-height[i];
+    //     }
+
+    //     return ans;
+        
+    // }
+
+    // TODO: OPTIMAL -> Prefix sum
     int trap(vector<int>& height) {
         int n = height.size();
-        vector<int> left(height), right(height); // prefix and suffix sum
-        int ans = 0;
+    if (n == 0) return 0;
 
-        for(int i=1; i<n; i++) {
-            left[i] = max(left[i], left[i-1]);
-        }
-        for(int i=n-2; i>=0; i--) {
-            right[i] = max(right[i], right[i+1]);
-        }
+    vector<int> leftH(n), rightH(n);
+    int ans = 0;
 
-        // for(auto i : left) cout<<i;
-        // cout<<endl;
-        // for(auto i : right) cout<<i;
+    // Build left max array
+    leftH[0] = height[0];
+    for (int i = 1; i < n; i++) {
+        leftH[i] = max(leftH[i - 1], height[i]);
+    }
 
-        for(int i=0; i<n; i++) {
-            int water = min(left[i], right[i]);
-            if(water >= height[i]) ans += water - height[i];
-        }
-        return ans;
+    // Build right max array
+    rightH[n - 1] = height[n - 1];
+    for (int i = n - 2; i >= 0; i--) {
+        rightH[i] = max(rightH[i + 1], height[i]);
+    }
+
+    // Calculate trapped water
+    for (int i = 0; i < n; i++) {
+        ans += min(leftH[i], rightH[i]) - height[i];
+    }
+
+    return ans;
     }
 };
