@@ -14,9 +14,10 @@ public:
             return;
         }
 
-        for(int i=ind; i<s.size(); i++){
-            // check palindrome
-            if(palindrome(s, ind, i)) {
+        for(int i=ind; i<s.size(); i++) {
+
+            if(palindrome(s,ind, i)) {
+
                 temp.push_back(s.substr(ind, i - ind + 1));
                 helper(s, temp, ans, i+1);
                 temp.pop_back();
