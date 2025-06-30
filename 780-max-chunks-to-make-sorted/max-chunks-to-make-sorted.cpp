@@ -17,21 +17,14 @@ public:
 
     int maxChunksToSorted(vector<int>& arr) {
          stack<int> st;
-
-        for (int x : arr) {
-            if (st.empty() || x >= st.top()) {
-                st.push(x);
-            } else {
-                int maxInChunk = st.top();
-                st.pop();
-                
-                while (!st.empty() && st.top() > x) {
-                    st.pop();
-                }
-                st.push(maxInChunk);  
-            }
+    for (int a : arr) {
+        int maxVal = a;
+        while (!st.empty() && st.top() > a) {
+            maxVal = max(maxVal, st.top());
+            st.pop();
         }
-
-        return st.size();  
+        st.push(maxVal);
+    }
+    return st.size();
     }
 };
