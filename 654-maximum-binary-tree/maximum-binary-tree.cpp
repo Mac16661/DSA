@@ -21,18 +21,44 @@ public:
         return maxInd;
     }
 
+    // TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+    //     if (nums.empty()) return nullptr;
+
+    //     int maxInd = findMax(nums);
+    //     TreeNode* root = new TreeNode(nums[maxInd]);
+
+    //     vector<int> left(nums.begin(), nums.begin() + maxInd);
+    //     vector<int> right(nums.begin() + maxInd + 1, nums.end());
+
+    //     root->left = constructMaximumBinaryTree(left);
+    //     root->right = constructMaximumBinaryTree(right);
+
+    //     return root;
+    // }
+
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        if (nums.empty()) return nullptr;
+        // TODO:  if some element is greater then, find a  number  which is smaller then current but greater then rest and pop the stack until we find it . once we find it set it to curr->left; if some elemnt is still there in stack which is greater then current,then make it st.top()-> right
+        stack<TreeNode*> st;
 
-        int maxInd = findMax(nums);
-        TreeNode* root = new TreeNode(nums[maxInd]);
+        for(auto num : nums) {
+            TreeNode* newNode = new TreeNode(num);
 
-        vector<int> left(nums.begin(), nums.begin() + maxInd);
-        vector<int> right(nums.begin() + maxInd + 1, nums.end());
+            // stack in increasing order
+            while(!st.empty() && st.top()->val < num) {
+                newNode->left = st.top();
+                st.pop();
+            }
 
-        root->left = constructMaximumBinaryTree(left);
-        root->right = constructMaximumBinaryTree(right);
+            if(!st.empty()) {
+                st.top()->right = newNode;
+            }
 
-        return root;
+            st.push(newNode);
+
+        }
+
+        while(st.size() != 1) st.pop(); // retriving the max element in the stack which wll be in th ebottom
+        
+        return st.top();
     }
 };
