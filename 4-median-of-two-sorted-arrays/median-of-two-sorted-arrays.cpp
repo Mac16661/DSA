@@ -1,6 +1,6 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int> &nums1, vector<int> &nums2) {
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int n1 = nums1.size(), n2 = nums2.size();
         
         // Ensure nums1 is the smaller array for simplicity
@@ -12,7 +12,7 @@ public:
         int low = 0, high = n1;
         
         while (low <= high) {
-            int mid1 = (low + high) >> 1; // Calculate mid index for nums1
+            int mid1 = (low + high) /2; // Calculate mid index for nums1
             int mid2 = left - mid1; // Calculate mid index for nums2
             
             int l1 = INT_MIN, l2 = INT_MIN, r1 = INT_MAX, r2 = INT_MAX;
@@ -44,6 +44,6 @@ public:
             }
         }
         
-        return 0; // If the code reaches here, the input arrays were not sorted.
+        return 0;
     }
 };
