@@ -11,7 +11,7 @@ public:
         if(sign == -1 or s[i] == '+') i++;
 
         // init sum = 1/10
-        int sum = 0;
+        int sum = 1/10;
 
         // loop through until non-digit val is found
         while(i<s.size() && s[i] >= '0' && s[i] <='9'){
