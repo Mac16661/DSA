@@ -1,74 +1,26 @@
 class Solution {
 public:
     int romanToInt(string s) {
-        int sum = 0;
-        int i = 0;
+        int n = s.size(); int sum = 0;
+        unordered_map<string, int> mpp {
+            {"I", 1}, {"V",5}, {"X", 10} ,{"L", 50}, {"C", 100}, {"D", 500}, {"M", 1000}, {"IV", 4},
+             {"IX", 9}, {"XL", 40}, {"XC", 90}, {"CD", 400}, {"CM", 900}
+        };
 
-        while (i < s.length()) {
-            switch (s[i]) {
-                case 'I':
-                    if (i + 1 < s.length() && s[i + 1] == 'V') {
-                        sum += 4;
-                        i += 2;
-                    } else if (i + 1 < s.length() && s[i + 1] == 'X') {
-                        sum += 9;
-                        i += 2;
-                    } else {
-                        sum += 1;
-                        i++;
-                    }
-                    break;
+        for(int i=n-1; i>=0; i--) {
+            string t;
+            if(i > 0){
+                t = string(1, s[i-1]) + s[i];
+            }
 
-                case 'V':
-                    sum += 5;
-                    i++;
-                    break;
-
-                case 'X':
-                    if (i + 1 < s.length() && s[i + 1] == 'L') {
-                        sum += 40;
-                        i += 2;
-                    } else if (i + 1 < s.length() && s[i + 1] == 'C') {
-                        sum += 90;
-                        i += 2;
-                    } else {
-                        sum += 10;
-                        i++;
-                    }
-                    break;
-
-                case 'L':
-                    sum += 50;
-                    i++;
-                    break;
-
-                case 'C':
-                    if (i + 1 < s.length() && s[i + 1] == 'D') {
-                        sum += 400;
-                        i += 2;
-                    } else if (i + 1 < s.length() && s[i + 1] == 'M') {
-                        sum += 900;
-                        i += 2;
-                    } else {
-                        sum += 100;
-                        i++;
-                    }
-                    break;
-
-                case 'D':
-                    sum += 500;
-                    i++;
-                    break;
-
-                case 'M':
-                    sum += 1000;
-                    i++;
-                    break;
-
-                default:
-                    i++; // Handle invalid characters gracefully
+            if(mpp.find(t) != mpp.end()){
+                sum += mpp[t];
+                i--;
+            }else{
+                sum += mpp[string(1, s[i])];
             }
         }
+
         return sum;
     }
 };
