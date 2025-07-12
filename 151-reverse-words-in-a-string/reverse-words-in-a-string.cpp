@@ -1,36 +1,44 @@
 class Solution {
 public:
-    
     string reverseWords(string s) {
-        string temp="";
-        string ans="";
-        stack<string> st;
+        string ans;
+        int left=0;
+        int right = 0;
 
-        for( int i=0; i<s.length();i++) {
-            if(s[i] != ' '){
-                temp+= s[i];
-            }else{
-                if(temp.length() > 0) {
-                    st.push(temp);
-                    temp="";
+        // trim down all the whitespace from start;
+         while (right < s.size() && s[right] == ' ') right++;
+        s = s.substr(right);
+
+        // Reset pointers
+        left = 0;
+        right = 0;
+
+        while (right < s.size()) {
+            if (s[right] == ' ') {
+                // Extract the word (length = right - left)
+                string word = s.substr(left, right - left);
+                if (!word.empty()) {
+                    ans = word + " " + ans;
                 }
+                // Skip whitespaces
+                while (right < s.size() && s[right] == ' ') right++;
+                left = right;
+            } else {
+                right++;
             }
         }
 
-        if (!temp.empty()) {
-            st.push(temp);
+        if (left < s.size()) {
+        string word = s.substr(left, right - left);
+            ans = word + " " + ans;
         }
 
-
-        while(!st.empty()) {
-            ans+= st.top();
-            st.pop();
-
-            if(!st.empty()){
-                ans+=" ";
-            }
+        // Trim trailing space
+        if (!ans.empty() && ans.back() == ' ') {
+            ans.pop_back();
         }
 
         return ans;
+
     }
 };
