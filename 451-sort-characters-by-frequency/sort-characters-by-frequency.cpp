@@ -1,18 +1,25 @@
 class Solution {
 public:
     string frequencySort(string s) {
-        vector<int> freqArr(128, 0); // creating a frequency array
+        unordered_map<char,int> mpp;
+        for(char c:s){
+            mpp[c]++;
+        }
 
-        for(auto ch :s) freqArr[ch]++; // populating freq array
+        priority_queue<pair<int, char>> maxHeap;
+        for(auto &[c, f]: mpp){
+            maxHeap.push({f,c});
+        }
 
-        // Using a custom comparator function to sort
-        auto cmp = [&] (char a, char b) { //[&] -> member of function can access everything outside function score
-            if(freqArr[a] == freqArr[b]) return a < b;
-            return freqArr[a] > freqArr[b];
-        };   
+        string ans="";
 
-        sort(s.begin(), s.end(), cmp);
+        while(!maxHeap.empty()) {
+            auto [f,c] = maxHeap.top();
+            maxHeap.pop();
+            ans+= string(f, c);
+        }
 
-        return s;
+        return ans;
+
     }
 };
