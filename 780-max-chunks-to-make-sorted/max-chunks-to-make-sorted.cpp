@@ -16,15 +16,26 @@ public:
     }
 
     int maxChunksToSorted(vector<int>& arr) {
-         stack<int> st;
-    for (int a : arr) {
-        int maxVal = a;
-        while (!st.empty() && st.top() > a) {
-            maxVal = max(maxVal, st.top());
-            st.pop();
+    //      stack<int> st;
+    // for (int a : arr) {
+    //     int maxVal = a;
+    //     while (!st.empty() && st.top() > a) {
+    //         maxVal = max(maxVal, st.top());
+    //         st.pop();
+    //     }
+    //     st.push(maxVal);
+    // }
+    // return st.size();
+
+        // Greedily dividing an arr to mantain a property -> only works bec range 0 to n-1 of len n
+        int cnt = 0;
+        int maxVal = 0;
+        for(int i=0; i<arr.size(); i++) {
+            maxVal = max(maxVal , arr[i]);
+            if(maxVal == i) cnt++;
         }
-        st.push(maxVal);
-    }
-    return st.size();
+
+        return cnt;
+
     }
 };
