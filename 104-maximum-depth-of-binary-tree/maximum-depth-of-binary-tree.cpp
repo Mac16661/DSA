@@ -11,20 +11,28 @@
  */
 class Solution {
 public:
-    void dfs(TreeNode* root, int &maxi, int cnt) {
-        if(root == NULL) {
-            return;
-        }
-
-        maxi = max(maxi, cnt);
-
-        dfs(root->left, maxi, cnt+1);
-        dfs(root->right, maxi, cnt+1);
-    }
 
     int maxDepth(TreeNode* root) {
-        int maxi = 0;
-        dfs(root, maxi, 1);
-        return maxi;
+        if(root == nullptr) return 0;
+        
+        queue<TreeNode*> q;
+        q.push(root);
+        int maxDepth = 0;
+
+        while(!q.empty()) {
+            int size = q.size();
+            
+            for(int i = 0; i<size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+
+                if(node->left != nullptr) q.push(node->left);
+                if(node->right != nullptr) q.push(node->right);
+            }
+
+            maxDepth++;
+        }
+
+        return maxDepth;
     }
 };
