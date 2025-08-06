@@ -5,20 +5,21 @@ public:
         int high = nums.size()-1;
         int ans = INT_MAX;
 
-        while(low<=high){
-            int mid =(low+high)/2;
+        while(low<=high) {
+            int mid = (low+high)/2;
 
-            if(nums[low] <= nums[high]){
+            // If the arr is in sorted order
+            if(nums[low] <= nums[high] ) {
                 ans = min(ans, nums[low]);
                 return ans;
             }
 
-            if(nums[low] <= nums[mid]){ //left part is sorted
+            if(nums[low] <= nums[mid]) {
                 ans = min(ans, nums[low]);
                 low = mid+1;
-            }else{
+            }else {
                 ans = min(ans, nums[mid]);
-                high = mid-1;
+                high = mid - 1;
             }
         }
         return ans;
