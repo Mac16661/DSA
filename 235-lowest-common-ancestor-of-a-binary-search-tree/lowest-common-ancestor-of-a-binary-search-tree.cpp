@@ -34,18 +34,34 @@ public:
         //         }
         //     }
         // }
+        // return nullptr;
 
         // Optimal code
 
-        if(root == nullptr) return root;
-        int curr = root->val;
+        // if(root == nullptr) return root;
+        // int curr = root->val;
 
-        if(curr < p->val && curr < q->val) {
-            return lowestCommonAncestor(root->right, p, q);
-        }else if(curr > p->val && curr > q->val) {
-            return lowestCommonAncestor(root->left, p , q);
-        }else {
-            return root;
+        // if(curr < p->val && curr < q->val) {
+        //     return lowestCommonAncestor(root->right, p, q);
+        // }else if(curr > p->val && curr > q->val) {
+        //     return lowestCommonAncestor(root->left, p , q);
+        // }else {
+        //     return root;
+        // }
+
+        // return nullptr;
+
+        // More optimal
+
+        while(root) {
+            int curr = root->val;
+            if(p->val > curr && q->val > curr) {
+                root = root->right;
+            }else if(p->val < curr && q->val < curr) {
+                root = root->left;
+            }else{
+                return root;
+            }
         }
 
         return nullptr;
