@@ -30,22 +30,30 @@ public:
         return -1;
     }
 
-    void inorder(TreeNode* root){
+    void inorder(TreeNode* root, int &cnt, int k, int& ans){
         if(root == nullptr) return;
 
-        inorder(root->left);
-        ans.push_back(root->val);
-        inorder(root->right);
+        inorder(root->left, cnt, k , ans);
+        // ans.push_back(root->val);
+        cnt++;
+        if(cnt == k) ans = root->val;
+        inorder(root->right, cnt, k , ans);
     }
 
     int kthSmallest(TreeNode* root, int k) {
         // return inorder(root, k, 0);
 
-        inorder(root);
+        // inorder(root);
 
-        for(auto i:ans) cout<<i<< " ";
-        cout<<endl;
+        // for(auto i:ans) cout<<i<< " ";
+        // cout<<endl;
 
-        return ans[k-1];
+        // return ans[k-1];
+
+        int cnt = 0;
+        int ans = -1;
+
+        inorder(root, cnt, k , ans);
+        return ans;
     }
 };
