@@ -10,30 +10,29 @@
  */
 class Solution {
 public:
-    int carry=0;
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        if(l1 == nullptr && l2 == nullptr && carry ==0) {
-            return nullptr;
+        ListNode* dummy = new ListNode(-1);
+        ListNode* curr = dummy;
+        int carry = 0;
+
+        while (l1 || l2 || carry) {
+            int sum = carry;
+            if (l1) {
+                sum += l1->val;
+                l1 = l1->next;
+            }
+            if (l2) {
+                sum += l2->val;
+                l2 = l2->next;
+            }
+
+            carry = sum / 10;
+            sum = sum % 10;
+
+            curr->next = new ListNode(sum);
+            curr = curr->next;
         }
 
-        int val = carry;
-
-        if(l1){
-           val += l1->val;
-           l1 = l1->next;
-        }
-
-        if(l2){
-            val += l2->val;
-            l2 = l2->next;
-        }
-        
-        
-        ListNode* newNode = new ListNode(val%10);
-        cout<<newNode->val<<" ";
-        carry = val/10;
-        newNode->next = addTwoNumbers(l1, l2);
-
-        return  newNode;
+        return dummy->next;
     }
 };
