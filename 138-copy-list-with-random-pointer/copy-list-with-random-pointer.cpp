@@ -17,24 +17,24 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        if(!head) return nullptr;
+        if(!head) return head;
 
+        // deep copy
         unordered_map<Node*, Node*> mpp;
+        Node* temp = head;
 
-        // set the top level node (head)
-        Node* curr = head;
-
-        while(curr != nullptr) {
-            mpp[curr] = new Node(curr->val);
-            curr = curr->next;
+        while(temp) {
+            mpp[temp] = new Node(temp->val);
+            temp = temp->next;
         }
 
-        //set the random and next pointer
-        curr = head;
-        while(curr != nullptr) {
-            mpp[curr]->next = mpp[curr->next];
-            mpp[curr]->random = mpp[curr->random];
-            curr = curr->next;
+        temp = head;
+
+        while(temp) {
+            mpp[temp]->random = mpp[temp->random];
+            mpp[temp]->next = mpp[temp->next];
+
+            temp = temp->next;
         }
 
         return mpp[head];
