@@ -10,21 +10,21 @@
  * };
  */
 class Solution {
-public:
-    int helper(TreeNode* root, int &sum) {
-        if(root == NULL) return 0;
+    int globalMax = INT_MIN;
 
-        int left =max(0, helper(root->left, sum));
-        int right =max(0, helper(root->right, sum));
+    int helper(TreeNode* root) {
+        if (!root) return 0;
 
-        sum = max(sum, (root->val+left+right));
+        int left = max(0, helper(root->left));
+        int right = max(0, helper(root->right));
 
-        return max(root->val+left, root->val+right);
+        globalMax = max(globalMax, root->val + left + right);
+
+        return root->val + max(left, right); // can go to only one path
     }
-
+public:
     int maxPathSum(TreeNode* root) {
-        int sum = INT_MIN;
-        helper(root, sum);
-        return sum;
+        helper(root);
+        return globalMax;
     }
 };
