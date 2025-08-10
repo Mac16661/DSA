@@ -11,75 +11,31 @@
  */
 class Solution {
 public:
+    void preorder(TreeNode* root, int row, int col, map<int, vector<pair<int,int>>>& mpp) {
+        if (!root) return;
+
+        mpp[col].push_back({row, root->val});
+        preorder(root->left, row + 1, col - 1, mpp);  // left child
+        preorder(root->right, row + 1, col + 1, mpp); // right child
+    }
+
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        map<int, map<int, multiset<int>>> nodes;
-        queue<pair<TreeNode*, pair<int, int>>> todo;
-        
-        // Push the root node with initial vertical
-        // and level values (0, 0)
-        todo.push({root, {0, 0}});
-        
-        // BFS traversal
-        while(!todo.empty()){
-            auto p = todo.front();
-            todo.pop();
-            TreeNode* temp = p.first;
-            
-            // Extract the vertical and level information
-            // x -> vertical
-            int x = p.second.first;  
-            // y -> level
-            int y = p.second.second; 
-            
-            // Insert the node value into the
-            // corresponding vertical and level
-            // in the map
-            nodes[x][y].insert(temp->val);
-            
-            // Process left child
-            if(temp->left){
-                todo.push({
-                    temp->left,
-                    {
-                        // Move left in
-                        // terms of vertical
-                        x-1, 
-                        // Move down in
-                        // terms of level
-                        y+1  
-                    }
-                });
-            }
-            
-            // Process right child
-            if(temp->right){
-                todo.push({
-                    temp->right, 
-                    {
-                        // Move right in
-                        // terms of vertical
-                        x+1, 
-                        // Move down in
-                        // terms of level
-                        y+1  
-                    }
-                });
-            }
-        }
-        
-        // Prepare the final result vector
-        // by combining values from the map
         vector<vector<int>> ans;
-        for(auto p: nodes){
-            vector<int> col;
-            for(auto q: p.second){
-                // Insert node values
-                // into the column vector
-                col.insert(col.end(), q.second.begin(), q.second.end());
-            }
-            // Add the column vector
-            // to the final result
-            ans.push_back(col);
+        if (!root) return ans;
+
+        map<int, vector<pair<int,int>>> mpp; // col -> list of (row, val)
+        preorder(root, 0, 0, mpp);
+
+        for (auto& [col, nodes] : mpp) {
+            // Sort by row first, then value
+            sort(nodes.begin(), nodes.end(), [](auto &a, auto &b) {
+                if (a.first == b.first) return a.second < b.second; // same row → smaller value first
+                return a.first < b.first; // smaller row first
+            });
+
+            vector<int> colVals;
+            for (auto &p : nodes) colVals.push_back(p.second);
+            ans.push_back(colVals);
         }
         return ans;
     }
