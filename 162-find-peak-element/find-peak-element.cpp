@@ -9,16 +9,15 @@ public:
 
         int low = 1, high = n-1;
 
-        while(low<=high) {
+        while(low <= high) {
             int mid = (low+high)/2;
 
-            // Find peak
             if(nums[mid-1] < nums[mid] && nums[mid] > nums[mid+1]) return mid;
 
-            // Eleminating left
+            // Movig towards peaks
             if(nums[mid-1] < nums[mid]) low = mid+1;
             else if(nums[mid-1] > nums[mid]) high = mid-1;
-            else low = mid+1; // we can eleminate either of the sides here we are eleminating left
+            else low = mid+1;// alternatively we can set high = mid-1;
         }
 
         return -1;
