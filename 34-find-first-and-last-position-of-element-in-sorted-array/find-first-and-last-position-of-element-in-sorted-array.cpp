@@ -1,51 +1,32 @@
 class Solution {
 public:
-    int findLastPos(vector<int> arr, int target){
-        int low = 0;
-        int high = arr.size()-1;
-        int ans = -1;
-
-        while(low <= high){
-            int mid = (low+high) / 2;
-
-            if(arr[mid] == target){
-                ans = mid;
-                low = mid+1;
-            }else if(arr[mid] > target){
-                high = mid-1;
-            }else{
-                low = mid+1;
-            }
+    int findFirst(vector<int>& nums, int target) {
+        int low = 0, high = nums.size() - 1, first = -1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] >= target) high = mid - 1;
+            else low = mid + 1;
+            if (nums[mid] == target) first = mid;
         }
-        return ans;
+        return first;
     }
 
-    int findFirstPos(vector<int> arr, int target){
-        int low = 0;
-        int high = arr.size()-1;
-        int ans = -1;
-
-        while(low<=high){
-            int mid = (low+high)/2;
-
-            if(arr[mid]== target){
-                ans = mid;
-                high = mid-1;
-            }else if(arr[mid] > target) {
-                high = mid-1;
-            }else{
-                low = mid+1;
-            }
+    int findLast(vector<int>& nums, int target) {
+        int low = 0, high = nums.size() - 1, last = -1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] <= target) low = mid + 1;
+            else high = mid - 1;
+            if (nums[mid] == target) last = mid;
         }
-
-        return ans;
+        return last;
     }
 
     vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> v;
-        v.push_back(findFirstPos(nums, target));
-        v.push_back(findLastPos(nums, target));
-
-        return v;
+        if (nums.empty()) return {-1, -1};
+        int first = findFirst(nums, target);
+        if (first == -1) return {-1, -1};
+        int last = findLast(nums, target);
+        return {first, last};
     }
 };
