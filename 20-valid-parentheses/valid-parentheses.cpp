@@ -6,7 +6,6 @@ public:
 
         while(i < s.size()) {
             char c = s[i];
-
             if(c == '(' || c == '[' || c == '{') {
                 st.push(c);
                 i++;
