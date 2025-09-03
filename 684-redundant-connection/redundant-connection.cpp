@@ -1,43 +1,28 @@
 class Solution {
 public:
-    struct DSU {
-        vector<int> parent, rank;
-
-        DSU(int n) {
-            parent.resize(n+1);
-            rank.resize(n+1, 0);
-            for(int i=1; i<=n; i++) parent[i] = i;
+    bool dfs(int src, int parent, vector<int> adj[], vector<bool>& vis) {
+        vis[src] = true;
+        for (auto adjnode : adj[src]) {
+            if (!vis[adjnode]) {
+                if (dfs(adjnode, src, adj, vis))
+                    return true;
+            } else if (adjnode != parent)
+                return true;
         }
-
-        int find(int x) {
-            if(parent[x] != x) {
-                parent[x] = find(parent[x]); // compressing path
-            }
-
-            return parent[x];
-        }
-
-        bool unite(int x, int y) {
-            int px = find(x), py = find(y);
-            if(px == py) return false; // cycle detected(if ultimate parents are same)
-
-            if(rank[px] < rank[py]) swap(px, py);
-            parent[py] = px;
-            if(rank[px]== rank[py]) rank[px]++;
-            return true;
-        }
-    };
+        return false;
+    }
 
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
         int n = edges.size();
-        DSU dsu(n);
-
-        vector<int> ans;
-        for(auto &e:edges) {
-            int u = e[0], v = e[1];
-            if(!dsu.unite(u,v)) ans = e; // we need to send the last one if multiple of them exists
+        vector<int> adj[n + 1];
+        for (int i = 0; i < n; i++) {
+            adj[edges[i][0]].push_back(edges[i][1]);
+            adj[edges[i][1]].push_back(edges[i][0]);
+            vector<bool> vis(n + 1, false);
+            if (dfs(edges[i][0], -1, adj, vis)) {
+                return edges[i];
+            }
         }
-
-        return ans;
+        return {};
     }
 };
