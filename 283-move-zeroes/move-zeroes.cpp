@@ -1,25 +1,20 @@
 class Solution {
 public:
-    void moveZeroes(vector<int>& arr) {
-        
-        int j = - 1;
+    void moveZeroes(vector<int>& nums) {
 
-       for(int i =0; i<arr.size(); i++) {
-        if(arr[i] == 0) {
-            j = i;
-            break;
-        }
-       }
+        int i = 0;
+        int n = nums.size();
 
-       if(j == -1) return;
+        for(int j=0; j<n; j++) {
+            while(i<j && nums[i] != 0) i++;
 
-       for (int i = j + 1; i < arr.size(); i++) {
-        if (arr[i] != 0) {
-            swap(arr[i], arr[j]);
-            j++;
+            // cout<<nums[i] << " "<< nums[j];
+
+            if(nums[j] != 0) {
+                // cout<<"Swapped";
+                swap(nums[i], nums[j]);
+            }
+            cout<<endl;
         }
     }
-    }
-
-    
 };
