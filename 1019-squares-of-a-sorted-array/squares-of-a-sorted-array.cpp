@@ -2,29 +2,23 @@ class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
         int n = nums.size();
+        int l = 0, r = n-1;
+        int i = n-1;
         vector<int> ans(n);
 
-        int l = 0, r = n-1;
-        int i = r;
         while(l<=r) {
-            if(i<0) break;
+            int num1 = nums[l] * nums[l];
+            int num2 = nums[r] * nums[r];
 
-            int leftSide = nums[l] * nums[l];
-            int rightSide = nums[r] * nums[r];
-
-            if(leftSide > rightSide) {
-                ans[i] = leftSide;
-                // cout<<leftSide<<endl;
+            if(num1 > num2) {
+                ans[i] = num1;
                 l++;
-            }else{
-                ans[i] = rightSide;
-                // cout<<rightSide<<endl;
+            }else {
+                ans[i] = num2;
                 r--;
             }
             i--;
-            // cout<< leftSide<< "  "<<rightSide<<" - > "<<ans[i]<<" "<<endl;
         }
-
         return ans;
     }
 };
