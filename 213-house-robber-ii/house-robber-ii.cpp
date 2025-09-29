@@ -1,25 +1,20 @@
 class Solution {
 public:
-    int helper(int idx, vector<int>& nums, vector<int>& dp, int end) {
-        if(idx > end) return 0;
-
-        if(dp[idx] != -1) return dp[idx];
-
-        // rob current house
-        int rob = nums[idx] + helper(idx+2, nums, dp, end);
-
-        // rob next one
-        int notRob = helper(idx+1, nums, dp, end);
-
-        return dp[idx] = max(rob, notRob);
+    int robLinear(vector<int>& nums, int start, int end) {
+        int prev1 = 0, prev2 = 0;
+        for (int i = start; i <= end; i++) {
+            int pick = nums[i] + prev2;
+            int notPick = prev1;
+            int curr = max(pick, notPick);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
     }
-
+    
     int rob(vector<int>& nums) {
         int n = nums.size();
-        if(n==1) return nums[n-1];
-        if(n==2) return max(nums[0], nums[1]);
-
-        vector<int> dp1(n, -1), dp2(n, -1);
-        return max(helper(0, nums, dp1, n-2), helper(1, nums, dp2, n-1));
+        if (n == 1) return nums[0];
+        return max(robLinear(nums, 0, n-2), robLinear(nums, 1, n-1));
     }
 };
