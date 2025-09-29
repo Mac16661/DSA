@@ -5,19 +5,18 @@ public:
 
         if(dp[idx] != -1) return dp[idx];
 
-        int sum = nums[idx];
-        int maxi = 0;
-        for(int i=idx; i<n; i++) {
-            maxi = max(maxi, helper(i+2, nums, dp, n));
-        }
-        sum+= maxi;
+        // pick 
+        int take = nums[idx] + helper(idx+2, nums, dp, n);
 
-        return dp[idx] = sum;
-    }
+        // not pick
+        int notTake = helper(idx+1, nums, dp, n);
+
+        return dp[idx] = max(take, notTake);
+    } 
 
     int rob(vector<int>& nums) {
         int n = nums.size();
         vector<int> dp(n, -1);
-        return max(helper(0, nums, dp, n), helper(1, nums, dp, n));
+        return helper(0, nums, dp, n);
     }
 };
