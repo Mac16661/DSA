@@ -1,26 +1,15 @@
 class Solution {
 public:
-    int helper(int idx, vector<int>& nums, int n, vector<int>& dp) {
-        if(idx >= n) return 0;
-
-        if(dp[idx] != -1) return dp[idx];
-
-        // take
-        int take = nums[idx] + helper(idx+1, nums, n, dp);
-
-        // not take
-        int notTake = nums[idx];
-
-        return dp[idx] = max(take, notTake);
-    }
-
     int maxSubArray(vector<int>& nums) {
-        int ans = INT_MIN;
+        // we just need to rely on prev state i-1
         int n = nums.size();
-        vector<int> dp(n, -1);
+        vector<int> dp(n);
+        dp[0] = nums[0];
+        int ans = nums[0];
 
-        for (int i = 0; i < n; i++) {
-            ans = max(ans, helper(i, nums, n, dp));
+        for(int i=1; i<n; i++) {
+            dp[i] = max(nums[i], dp[i-1] + nums[i]);
+            ans = max(dp[i], ans);
         }
 
         return ans;
