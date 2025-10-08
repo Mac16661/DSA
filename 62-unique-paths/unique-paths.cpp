@@ -17,7 +17,17 @@ public:
     }
 
     int uniquePaths(int m, int n) {
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        return findPath(0, 0, m, n, dp);
+        // vector<vector<int>> dp(m, vector<int>(n, -1));
+        // return findPath(0, 0, m, n, dp);
+        vector<int> prev(n, 1), curr(n, 1);
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                curr[j] = curr[j - 1] + prev[j];
+            }
+            prev = curr;
+        }
+
+        return prev[n - 1];
     }
 };
