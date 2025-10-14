@@ -12,7 +12,7 @@ public:
         for(int i=0; i<n; i++) {
             prefixSum += nums[i];
 
-            int remainder = ((prefixSum % k) + k) % k;  // normalize remainder
+            int remainder = ((prefixSum % k) + k) % k;  // normalize remainder -> if remainder is -ve it becomes +ve after normalization 
             cnt += mp[remainder];
             mp[remainder]++;
         }
