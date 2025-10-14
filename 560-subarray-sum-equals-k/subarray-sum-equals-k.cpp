@@ -1,28 +1,22 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
+        // we will compute both prefix sum and mantain hashmap in one go
         int n = nums.size();
-        int prefix[n];
-        prefix[0] = nums[0];
-
-        for(int i=1; i<n; i++) {
-            prefix[i] = nums[i] + prefix[i-1];
-        }   
-
-        // storing prefix sum - k for each i
         unordered_map<int, int> mp;
+        mp[0] = 1;  // setting 0 as default key and val as 1
+
         int ans = 0;
+        int prefixSum = 0;
 
         for(int i=0; i<n; i++) {
-            if(prefix[i] == k) ans++;
+            prefixSum += nums[i];
 
-            // if prefix sum - k exists in the unordered map
-            if(mp.find(prefix[i] - k) != mp.end()) {
-                ans+= mp[prefix[i] - k];
-            }
-
-            mp[prefix[i]]++;
+            int rmv = prefixSum - k;
+            ans += mp[rmv];
+            mp[prefixSum]++;
         }
+
         return ans;
     }
 };
