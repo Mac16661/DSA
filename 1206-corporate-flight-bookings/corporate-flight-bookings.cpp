@@ -1,17 +1,25 @@
 class Solution {
 public:
     vector<int> corpFlightBookings(vector<vector<int>>& bookings, int n) {
-        vector<int> reserved(n, 0);
+        vector<int> seats(n+1, 0);
+        vector<int> ans(n, 0);
 
         for(int i=0; i<bookings.size(); i++) {
-            int st = bookings[i][0];
+            int start = bookings[i][0];
             int end = bookings[i][1];
-            int seats = bookings[i][2];
-            for(int i=st; i<=end; i++){
-                reserved[i-1] += seats;
+
+            seats[start-1] += bookings[i][2];
+            if(end<n){
+                seats[end] -= bookings[i][2];
             }
         }
 
-        return reserved;
+        int curr = 0;
+        for(int i=0; i<n; i++) {
+            curr = curr + seats[i];
+            ans[i] = curr;
+        }
+
+        return ans;
     }
 };
