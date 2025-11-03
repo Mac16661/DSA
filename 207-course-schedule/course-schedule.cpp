@@ -1,29 +1,35 @@
 class Solution {
 public:
-    bool dfs(int node, vector<vector<int>>& graph, vector<int>& visited) {
-        visited[node] = 1; 
+    bool dfs(int node, vector<vector<int>>& graph, vector<int>& state) {
+        state[node] = 1; // visiting
 
-        for (auto neg : graph[node]) {
-            if (visited[neg] == 1) return true; 
-            if (visited[neg] == 0 && dfs(neg, graph, visited)) return true;
+        for (int neigh : graph[node]) {
+            if (state[neigh] == 1) 
+                return true; // cycle detected
+            if (state[neigh] == 0 && dfs(neigh, graph, state))
+                return true;
         }
 
-        visited[node] = 2; 
+        state[node] = 2; // done visiting
         return false;
     }
 
-    bool canFinish(int numCourses, vector<vector<int>>& preq) {
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> graph(numCourses);
-        for(auto p:preq) {
-            graph[p[1]].push_back(p[0]);
+        for (auto& edge : prerequisites) {
+            int a = edge[0];
+            int b = edge[1];
+            graph[b].push_back(a); // correct direction
         }
 
-        vector<int> visited(numCourses, 0);
-
-        for(int i=0; i<numCourses; i++) {
-            if(visited[i] == 0 && dfs(i, graph, visited)) return false;
+        vector<int> state(numCourses, 0);
+        for (int i = 0; i < numCourses; i++) {
+            if (state[i] == 0) {
+                if (dfs(i, graph, state)) 
+                    return false; // cycle found
+            }
         }
 
-        return true;
+        return true; // no cycle
     }
 };
