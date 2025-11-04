@@ -1,40 +1,46 @@
 class Solution {
 public:
-    vector<int> findOrder(int numCourses, vector<vector<int>>& preq) {
-        vector<vector<int>> graph(numCourses);
-        for(auto p:preq) {
-            graph[p[1]].push_back(p[0]);
+    void dfsTopoSort(int node, vector<vector<int>> &graph, vector<int> &visited, stack<int> &st, bool &hasCycle) {
+        visited[node] = 1; // 1 = visiting
+
+        for (int neigh : graph[node]) {
+            if (visited[neigh] == 0)
+                dfsTopoSort(neigh, graph, visited, st, hasCycle);
+            else if (visited[neigh] == 1)
+                hasCycle = true; // found a back edge
         }
 
-        // Khan algo
-        vector<int> indegree(numCourses, 0);
-        for(int i=0; i<numCourses; i++) {
-            for(auto it:graph[i]){
-                indegree[it]++;
-            }
+        visited[node] = 2; // 2 = done
+        st.push(node);
+    }
+
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        int n = numCourses;
+        vector<vector<int>> graph(n);
+
+        for (auto &edge : prerequisites) {
+            int u = edge[0];
+            int v = edge[1];
+            graph[v].push_back(u); // v → u
         }
 
-        queue<int> q;
-        for(int i=0; i<numCourses; i++) {
-            if(indegree[i] == 0) q.push(i);
+        vector<int> visited(n, 0);
+        stack<int> st;
+        bool hasCycle = false;
+
+        for (int i = 0; i < n; i++) {
+            if (visited[i] == 0)
+                dfsTopoSort(i, graph, visited, st, hasCycle);
         }
 
-        vector<int> topo;
-        while(!q.empty()) {
-            int node = q.front();
-            q.pop();
+        if (hasCycle) return {}; // No valid order if cycle exists
 
-            topo.push_back(node);
-
-            for(auto it:graph[node]){
-                indegree[it]--;
-                if(indegree[it] == 0) q.push(it);
-            }
+        vector<int> ans;
+        while (!st.empty()) {
+            ans.push_back(st.top());
+            st.pop();
         }
 
-        if(topo.size() == numCourses) 
-            return topo;
-        else 
-            return {};
+        return ans;
     }
 };
