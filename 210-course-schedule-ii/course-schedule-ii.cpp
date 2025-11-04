@@ -1,48 +1,49 @@
 class Solution {
 public:
-    void dfsTopoSort(int node, vector<vector<int>> &graph, vector<int> &visited, stack<int> &st, bool &hasCycle) {
-        visited[node] = 1; // 1 = visiting
-
-        for (int neigh : graph[node]) {
-            if (visited[neigh] == 0)
-                dfsTopoSort(neigh, graph, visited, st, hasCycle);
-            else if (visited[neigh] == 1) {
-                hasCycle = true; // found a back edge
-                return;
-            }
-        }
-
-        visited[node] = 2; // 2 = done
-        st.push(node);
-    }
-
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        // building graph
         int n = numCourses;
         vector<vector<int>> graph(n);
 
-        for (auto &edge : prerequisites) {
+        vector<int> indegree(n, 0);
+        for(auto &edge: prerequisites) {
             int u = edge[0];
             int v = edge[1];
-            graph[v].push_back(u); // v → u
+
+            graph[v].push_back(u);
+            indegree[u]++;
         }
 
-        vector<int> visited(n, 0);
-        stack<int> st;
-        bool hasCycle = false;
+        //KHAN'S Algorithm
+        
 
-        for (int i = 0; i < n; i++) {
-            if (visited[i] == 0)
-                dfsTopoSort(i, graph, visited, st, hasCycle);
+        // for(int u = 0; u < n; u++) {
+        //     for(int v:graph[u]) {
+        //         indegree[v]++;
+        //     }
+        // }
+
+        queue<int> q;
+        // Node with indegree 0 should be pushed into the queue
+        for(int i =0; i<n; i++) {
+            if(indegree[i]==0) q.push(i);
         }
 
-        if (hasCycle) return {}; // No valid order if cycle exists
+        vector<int> topo;
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
 
-        vector<int> ans;
-        while (!st.empty()) {
-            ans.push_back(st.top());
-            st.pop();
+            // exploring edges of current node
+            for(auto neigh: graph[node]) {
+                indegree[neigh]--;
+                if(indegree[neigh] == 0) q.push(neigh);
+            }
         }
 
-        return ans;
+        if(topo.size() == n) return topo;
+
+        return {};
     }
 };
