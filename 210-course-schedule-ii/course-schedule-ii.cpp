@@ -6,8 +6,10 @@ public:
         for (int neigh : graph[node]) {
             if (visited[neigh] == 0)
                 dfsTopoSort(neigh, graph, visited, st, hasCycle);
-            else if (visited[neigh] == 1)
+            else if (visited[neigh] == 1) {
                 hasCycle = true; // found a back edge
+                return;
+            }
         }
 
         visited[node] = 2; // 2 = done
