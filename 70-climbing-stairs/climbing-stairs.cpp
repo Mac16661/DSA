@@ -36,7 +36,20 @@ public:
         // 2. take 2 step
         // helper(n);
         // return cnt;
-        vector<int> dp(n+1, -1);
-        return helperTop(n, dp);
+
+        // vector<int> dp(n+1, -1);
+        // return helperTop(n, dp);
+
+        vector<int> dp(n+1, 0);
+        dp[0] = 1;
+
+        for(int i=1; i<=n; i++) {
+            int st1 = dp[i-1];
+            int st2 = 0;
+            if(i>1) st2 = dp[i-2];
+            dp[i] = st1+st2;
+        }
+
+        return dp[n];
     }
 };
