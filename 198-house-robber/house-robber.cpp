@@ -1,39 +1,47 @@
 class Solution {
 public:
-    int helper(int idx, vector<int>& nums, vector<int>& dp, int n) {
-        if(idx >= n) return 0;
-
-        if(dp[idx] != -1) return dp[idx];
-
-        // pick 
-        int take = nums[idx] + helper(idx+2, nums, dp, n);
-
-        // not pick
-        int notTake = helper(idx+1, nums, dp, n);
-
-        return dp[idx] = max(take, notTake);
-    } 
-
-    int rob(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n, -1);
-        // return helper(0, nums, dp, n);
-
-        if (n == 1) return nums[0];
-        
-        dp[0] = nums[0];
-        dp[1] = max(nums[0], nums[1]);
-
-        for(int i=2; i<n; i++) {
-            int take = 0;
-            if(i > 1){
-                take = nums[i] + dp[i-2];
-            }
-
-            int notTake = dp[i-1];
-            dp[i] = max(take, notTake);
+    // just recursion
+    int maxSum = 0;
+    void helperRec(int i, vector<int>& nums, int sum) {
+        // base case
+        if(i >= nums.size()) {
+            maxSum = max(maxSum, sum);
+            return;
         }
 
-        return dp[n-1];
+        // Take
+        helperRec(i+2, nums, sum + nums[i]);
+
+        // Not Take
+        helperRec(i+1, nums, sum);
+    }
+
+    // Top Down DP 
+    int helperDP(int n, vector<int> &nums, vector<int> & dp) {
+        // base case
+        if(n < 0) {
+            return 0;
+        }
+
+        // dp
+        if(dp[n] != -1) return dp[n];
+
+        // Take
+        int t = helperDP(n-2, nums, dp) + nums[n];
+
+        // Not Take
+        int nt = helperDP(n-1, nums, dp);
+
+        return dp[n] = max(t, nt);
+    }
+
+    int rob(vector<int>& nums) {
+        // helperRec(0, nums, 0);
+        // return maxSum;
+
+        // Top Down DP
+        int n = nums.size()-1;
+        vector<int> dp(n+1, -1);
+        return helperDP(n, nums, dp);
     }
 };
