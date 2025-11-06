@@ -40,16 +40,29 @@ public:
         // vector<int> dp(n+1, -1);
         // return helperTop(n, dp);
 
-        vector<int> dp(n+1, 0);
-        dp[0] = 1;
+        // dp bottom up approach
+        // vector<int> dp(n+1, 0);
+        // dp[0] = 1;
 
-        for(int i=1; i<=n; i++) {
-            int st1 = dp[i-1];
-            int st2 = 0;
-            if(i>1) st2 = dp[i-2];
-            dp[i] = st1+st2;
+        // for(int i=1; i<=n; i++) {
+        //     int st1 = dp[i-1];
+        //     int st2 = 0;
+        //     if(i>1) st2 = dp[i-2];
+        //     dp[i] = st1+st2;
+        // }
+
+        // return dp[n];
+
+        // dp optimization
+        if (n <= 2) return n;
+        int prev2 = 1, prev1 = 2; // TODO: Here we are calculating naumber of distinct ways so we are effectively storing distinct ways form prev2 to end and distinct way from prev1 to end which is 1 and 2 respectively.
+
+        for(int i=3; i<=n; i++) {
+            int curr = prev2 + prev1;
+            prev2 = prev1;
+            prev1 = curr;
         }
 
-        return dp[n];
+        return prev1;
     }
 };
