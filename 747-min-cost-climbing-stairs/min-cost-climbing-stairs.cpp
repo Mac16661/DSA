@@ -32,7 +32,22 @@ public:
         // helper(1, cost, 0); // or step 1
         // return minCost;
 
-        vector<int> dp(n, -1);
-        return min(helperRec(0, cost, dp), helperRec(1, cost, dp));
+        // vector<int> dp(n, -1);
+        // return min(helperRec(0, cost, dp), helperRec(1, cost, dp));
+
+        // Tabulization 
+        // if(n==1) return cost[0];
+        // if(n==2) return min(cost[0], cost[1]);
+
+        
+        vector<int> dp(n + 1, 0);
+
+        for (int i = 2; i <= n; i++) {
+            int take1 = dp[i - 1] + cost[i - 1];
+            int take2 = dp[i - 2] + cost[i - 2];
+            dp[i] = min(take1, take2);
+        }
+
+        return dp[n];
     }
 };
