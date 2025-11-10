@@ -11,20 +11,24 @@
  */
 class Solution {
 public:
-    vector<int> ans;
+    void helper(TreeNode* root, vector<int>& tree) {
+        if(root == nullptr) return;
 
-    void helper(TreeNode* root) {
-        if(root == NULL) {
-            return;
-        }
+        // left
+        helper(root->left, tree);
 
-        helper(root->left);
-        ans.push_back(root->val);
-        helper(root->right);
+        // root
+        tree.push_back(root->val);
+
+        // right
+        helper(root->right, tree);
     }
 
     vector<int> inorderTraversal(TreeNode* root) {
-        helper(root);
-        return ans;
+        vector<int> tree;
+        if(root == nullptr) return tree;
+
+        helper(root, tree);
+        return tree;
     }
 };
