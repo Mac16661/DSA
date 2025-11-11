@@ -12,20 +12,20 @@
 class Solution {
 public:
     int maxD = 0;
-
     int helper(TreeNode* root) {
-        if (root == nullptr) return 0;
+        if(root == nullptr) return 0;
 
         int left = helper(root->left);
         int right = helper(root->right);
 
-        maxD = max(maxD , (left+right));
+        maxD = max( maxD, left + right);
 
         return max(left, right) + 1;
     }
 
+    // For each root node check its left + right subtree sum and return the maximum one
     int diameterOfBinaryTree(TreeNode* root) {
         helper(root);
         return maxD;
-     }
+    }
 };
