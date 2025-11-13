@@ -11,29 +11,28 @@
  */
 class Solution {
 public:
-    unordered_map<int,int> mpp; // val -> index in inorder
-    int post_idx = 0;
+    unordered_map<int, int> mp; // Node -> idx
 
-    TreeNode* dfs(vector<int>& postorder, vector<int>& inorder, int l, int r) {
-        if (l > r) return nullptr;
+    TreeNode* dfs(int left, int right, vector<int>& inorder, vector<int>& postorder, int& idx) {
+        if(left > right || idx < 0) return nullptr;
 
-        int root_val = postorder[post_idx];
-        TreeNode* root = new TreeNode(root_val);
-        int mid = mpp[root_val];
-        post_idx--;
+        int rootVal = postorder[idx--];
+        TreeNode* node = new TreeNode(rootVal);
 
-        // build right before left
-        root->right = dfs(postorder, inorder, mid + 1, r);
-        root->left = dfs(postorder, inorder, l, mid - 1);
+        node->right = dfs(mp[rootVal] + 1, right, inorder, postorder, idx);
+        node->left = dfs(left, mp[rootVal] - 1, inorder, postorder, idx);
 
-        return root;
+        return node;
     }
 
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        post_idx = postorder.size() - 1;
-        for (int i = 0; i < inorder.size(); i++) {
-            mpp[inorder[i]] = i;
+        int n = inorder.size();
+        for(int i=0; i<n; i++) {
+            mp[inorder[i]] = i;
         }
-        return dfs(postorder, inorder, 0, inorder.size() - 1);
+
+        int idx = postorder.size() - 1;
+        TreeNode* ans = dfs(0, inorder.size()-1, inorder, postorder, idx);
+        return ans;
     }
 };
