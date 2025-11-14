@@ -11,63 +11,17 @@
  */
 class Solution {
 public:
-    // Just inverting the valuse will not work
-    // TreeNode* invertTree(TreeNode* root) {
-    //     // level order traversal
-    //     if(root == nullptr) return root;
-
-    //     queue<TreeNode*> q;
-    //     q.push(root);
-
-    //     // 
-
-    //     while(!q.empty()) {
-    //         int size = q.size();
-    //         vector<TreeNode*> level;
-
-    //         for(int i=0; i<size; i++) {
-    //             TreeNode* node = q.front();
-    //             level.push_back(node);
-    //             q.pop();
-
-    //             if(node == nullptr) continue;
-
-    //             // if(node->left != nullptr) {
-    //                 q.push(node->left);
-    //             // }
-
-    //             // if(node->right != nullptr) {
-    //                 q.push(node->right);
-    //             // }
-    //         }
-
-    //         // swaping value of level
-    //         int i = 0, j = level.size() -1;
-
-    //         while(i<=j){
-    //             // cout<<level[i]->val<<" -> " << level[j]->val<<endl;
-    //             while(i < level.size() && level[i] == nullptr) i++;
-    //             while(j >=0 && level[j] == nullptr) j--;
-    //             if(i<level.size() && j>=0)
-    //                 swap(level[i]->val, level[j]->val);
-    //             i++;
-    //             j--;
-    //         }
-            
-    //     }
-    //     return root;
-    // }
-
-    // need to invert the tree nodes
+    // do a preorder traversal ans swap left from right 
     TreeNode* invertTree(TreeNode* root) {
-        if(root == nullptr) return root;
+        if(root == nullptr) return nullptr;
 
-        TreeNode* tempNode = root->left;
+        // temp pointer
+        TreeNode* temp = root->left;
         root->left = root->right;
-        root->right = tempNode;
+        root->right = temp;
 
-        invertTree(root->right);
         invertTree(root->left);
+        invertTree(root->right);
 
         return root;
     }
