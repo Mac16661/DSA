@@ -15,17 +15,16 @@ public:
     int helper(TreeNode* root) {
         if(root == nullptr) return 0;
 
-        int left = helper(root->left);
-        int right = helper(root->right);
+        int leftD = helper(root->left);
+        int rightD = helper(root->right);
 
-        maxD = max( maxD, left + right);
+        if(leftD + rightD > maxD) maxD = leftD + rightD;
 
-        return max(left, right) + 1;
+        return max(leftD, rightD) + 1;
     }
 
-    // For each root node check its left + right subtree sum and return the maximum one
     int diameterOfBinaryTree(TreeNode* root) {
         helper(root);
         return maxD;
-    }
+    }   
 };
