@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // TODO: Counting sort can also be used here
     vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
         map<int, int> mp;
         for(auto i:arr1) mp[i]++;
