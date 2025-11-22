@@ -4,7 +4,8 @@ public:
         vector<int> globalFreq(26, INT_MAX);
 
         for (auto &w : words) {
-            vector<int> freq(26, 0);
+            // If some char is not present in all the number it's freq will become 0 in globalFreq because freq(26,0) & min(globalFreq[i], freq[i])
+            vector<int> freq(26, 0); // very important 
             for (char c : w) freq[c - 'a']++;
             
             for (int i = 0; i < 26; i++)
