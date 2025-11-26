@@ -1,19 +1,15 @@
 class Solution {
 public:
     int findMaxLength(vector<int>& nums) {
-        int n = nums.size();
-        unordered_map<int, int> mp;
+        int sum = 0, maxLen = 0;
+        unordered_map<int , int> seen{{0, -1}};
 
-        int prefix = 0, maxLen = 0;
-        mp[0] = -1;
-
-        for(int i=0; i<n; i++) {
-            prefix += (nums[i]==0)?-1:1;
-            if(mp.find(prefix) != mp.end()) {
-                int len = i - mp[prefix];
-                maxLen = max(len , maxLen);
-            }else mp[prefix] = i; // only first occurence to get the lasgest subarr
+        for(int i=0; i<nums.size(); i++) {
+            sum += nums[i]==1 ? 1 : -1;
+            if(seen.count(sum)) maxLen = max(maxLen, i - seen[sum]);
+            else seen[sum] = i;
         }
+
         return maxLen;
     }
 };
