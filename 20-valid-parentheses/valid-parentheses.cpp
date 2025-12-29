@@ -2,28 +2,23 @@ class Solution {
 public:
     bool isValid(string s) {
         stack<char> st;
-        int i=0;
-
-        while(i < s.size()) {
-            char c = s[i];
-            if(c == '(' || c == '[' || c == '{') {
+        // loop through all the elements
+        for(char c:s) {
+            // check if it is open or close bracket
+            if(c=='(' || c == '{' || c == '[') {
                 st.push(c);
-                i++;
-            }else{
+            }else { // close bracket
                 if(!st.empty()) {
-                    
-                    if(st.top() == '(' && c == ')') st.pop();
-                    else if(st.top() == '[' && c == ']') st.pop();
-                    else if(st.top() == '{' && c == '}') st.pop();
-                    else  st.push(c);
-                }else{
-                    st.push(c);
-                }
-                i++;
+                    char top = st.top();
+                    if((top=='(' and c== ')') || (top=='{' and c== '}') || (top=='[' and c== ']')) {
+                        st.pop();
+                    }else{
+                        return false;
+                    }
+                }else return false;
             }
         }
 
         return st.empty();
     }
-
 };
