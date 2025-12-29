@@ -1,25 +1,22 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int low = 0;
-        int high = nums.size()-1;
-        int ans = INT_MAX;
+        // always go to the sorted side and check
+        int low=0;
+        int high = nums.size() - 1;
+        int ans = nums[0];
 
-        while(low<=high) {
+        while(low <= high) {
             int mid = (low+high)/2;
 
-            // If the arr is in sorted order
-            if(nums[low] <= nums[high] ) {
-                ans = min(ans, nums[low]);
-                return ans;
-            }
-
-            if(nums[low] <= nums[mid]) {
-                ans = min(ans, nums[low]);
+            if(nums[low]<= nums[mid]) {
+                ans = min(nums[low], ans);
+                // search on right subarr
                 low = mid+1;
-            }else {
-                ans = min(ans, nums[mid]);
-                high = mid - 1;
+            }else if(nums[mid+1] <= nums[high]) {
+                ans = min(nums[mid+1], ans);
+                // search on left subarr
+                high = mid;
             }
         }
         return ans;
