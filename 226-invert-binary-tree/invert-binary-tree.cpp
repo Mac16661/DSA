@@ -11,18 +11,17 @@
  */
 class Solution {
 public:
-    // do a preorder traversal ans swap left from right 
+    
     TreeNode* invertTree(TreeNode* root) {
-        if(root == nullptr) return nullptr;
+        if(root == nullptr) return root;
 
-        // temp pointer
-        TreeNode* temp = root->left;
+        TreeNode* tempNode = root->left;
         root->left = root->right;
-        root->right = temp;
+        root->right = tempNode;
 
-        invertTree(root->left);
         invertTree(root->right);
+        invertTree(root->left);
 
-        return root;
+        return root;   
     }
 };
