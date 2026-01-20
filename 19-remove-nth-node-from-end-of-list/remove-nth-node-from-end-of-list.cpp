@@ -9,29 +9,23 @@
  * };
  */
 class Solution {
+    int count=0;
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* fast = head;
-        ListNode* slow = head;
+    ListNode* helper(ListNode* head, int n) {
+        if(head== nullptr) return nullptr;
 
-        
-        for (int i = 0; i < n; i++) {
-            if (fast == NULL) return head; 
-            fast = fast->next;
+        ListNode* newNode = helper(head->next, n);
+        count++;
+
+        if(count == n) {
+            return newNode;
         }
 
-        if (fast == NULL) {
-            return head->next; 
-        }
-
-        while (fast->next != NULL) {
-            fast = fast->next;
-            slow = slow->next;
-        }
-
-       
-        slow->next = slow->next->next;
-
+        head->next = newNode;
         return head;
+    }
+
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        return helper(head,n);
     }
 };
