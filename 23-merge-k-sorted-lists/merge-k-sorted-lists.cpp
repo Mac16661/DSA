@@ -10,26 +10,28 @@
  */
 class Solution {
 public:
-    ListNode* mergeList(ListNode* l1, ListNode* l2) {
-        if(!l1) return l2;
-        if(!l2) return l1;
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+    if (!l1) return l2;
+    if (!l2) return l1;
 
-        if(l1->val < l2->val) {
-            l1->next = mergeList(l1->next, l2);
-            return l1;
-        } else {
-            l2->next = mergeList(l1, l2->next);
-            return l2;
-        }
+    if (l1->val <= l2->val) {
+        l1->next = merge(l1->next, l2);
+        return l1;
+    } else {
+        l2->next = merge(l1, l2->next);
+        return l2;
     }
+}
+
 
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if (lists.empty()) return nullptr;
+    if (lists.empty()) return nullptr;
 
-        ListNode* merged = lists[0];
-        for (int i = 1; i < lists.size(); i++) {
-            merged = mergeList(merged, lists[i]);
-        }
-        return merged;
+    ListNode* result = lists[0];
+    for (int i = 1; i < lists.size(); i++) {
+        result = merge(result, lists[i]);
     }
+    return result;
+}
+
 };
