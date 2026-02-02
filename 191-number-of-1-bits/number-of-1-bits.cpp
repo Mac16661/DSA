@@ -15,15 +15,13 @@ public:
     }
 
     int hammingWeight(int n) {
+        int ans = 0;
         // decimal to binary
-        string s = decToBinary(n);
-
-        // loop through it and find cnt no of set bit and return
-        int cnt = 0;
-        for(auto i:s){
-            if(i=='1') cnt++;
+        while(n) {
+            if(n%2) ans++;
+            n/=2;
         }
 
-        return cnt;
+        return ans;
     }
 };
