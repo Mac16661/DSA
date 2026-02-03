@@ -15,11 +15,12 @@ public:
     }
 
     int hammingWeight(int n) {
+        // OPTIMAL 
         int ans = 0;
         // decimal to binary
         while(n) {
-            if(n%2) ans++;
-            n/=2;
+           ans++;
+           n = (n & (n-1));
         }
 
         return ans;
