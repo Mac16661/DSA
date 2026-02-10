@@ -1,24 +1,17 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        if(nums.size() < 2) return nums[0];
+        // Brute forece -> use nested loops to determin the duplicates
 
-        int slow = nums[0];
-        int fast = nums[0];
+        // Betrer  - > use a set to determin if there is nay duplicate and return
+        int n=nums.size();
+        unordered_set<int> st;
 
-        // intersection point
-        do{
-            slow = nums[slow];
-            fast = nums[nums[fast]];
-        }
-        while(slow != fast);
-
-        slow = nums[0];
-        while(slow != fast) {
-            slow = nums[slow];
-            fast = nums[fast];
+        for(int i=0; i<n; i++) {
+            if(st.count(nums[i])) return nums[i];
+            st.insert(nums[i]);
         }
 
-        return slow;
+        return -1;
     }
 };
