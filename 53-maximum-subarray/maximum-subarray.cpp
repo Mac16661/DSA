@@ -16,18 +16,19 @@ public:
 
         // return maxSum;
 
-        // prefix sum approach
-            
-            int pref = 0;
-            int minPref = 0;
-            int ans = INT_MIN;
+        // prefix sum approach: We need to find the minimum prefix which we can substract form the current prefix to get the larget remainig
 
-            for (int x : nums) {
-                pref += x;
-                ans = max(ans, pref - minPref);
-                minPref = min(minPref, pref);
-            }
-            return ans;
+        int pref = 0;
+        int minPref = 0;
+        int ans = INT_MIN;
+
+        for(int x : nums) {
+            pref += x;
+            ans = max(ans, pref - minPref);     // finding the minimum prefix 
+            minPref = min(minPref, pref);
+        }
+
+        return ans;
 
     }
 };
