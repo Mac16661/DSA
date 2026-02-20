@@ -1,31 +1,22 @@
 class Solution {
 public:
-    int helperDP(int n, vector<int> &nums, vector<int> & dp) {
-            // base case
-            if(n < 0) {
-                return 0;
-            }
+    int helper(vector<int>& nums, vector<int>& dp, int i, int n) {
+        if (i >= n) return 0;
 
-            // dp
-            if(dp[n] != -1) return dp[n];
+        if (dp[i] != -1) return dp[i];
 
-            // Take
-            int t = helperDP(n-2, nums, dp) + nums[n];
+        int take = helper(nums, dp, i+2, n) + nums[i];
+        int notTake = helper(nums, dp, i+1, n);
 
-            // Not Take
-            int nt = helperDP(n-1, nums, dp);
-
-            return dp[n] = max(t, nt);
+        return dp[i] = max(take, notTake);
     }
-
     int rob(vector<int>& nums) {
         int n = nums.size();
         if (n == 1) return nums[0];
-        vector<int> nums2(nums.begin()+1, nums.end());
-        vector<int> nums1(nums.begin(), nums.end()-1);
-        vector<int> dp(n - 1, -1);
-        vector<int> dp2(n - 1, -1);
 
-        return max(helperDP(n-2, nums1, dp), helperDP(n-2, nums2, dp2));
+        vector<int> dp1(n, -1);
+        vector<int> dp2(n, -1);
+
+        return max(helper(nums, dp1, 0, n-1), helper(nums, dp2, 1, n));
     }
 };
