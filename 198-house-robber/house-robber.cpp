@@ -1,73 +1,23 @@
 class Solution {
 public:
-    // just recursion
-    int maxSum = 0;
-    void helperRec(int i, vector<int>& nums, int sum) {
-        // base case
-        if(i >= nums.size()) {
-            maxSum = max(maxSum, sum);
-            return;
-        }
+    int helper(vector<int>& nums, int i, vector<int>& dp) {
+        if (i >= nums.size()) return 0;
 
-        // Take
-        helperRec(i+2, nums, sum + nums[i]);
+        if(dp[i] != -1) return dp[i];
 
-        // Not Take
-        helperRec(i+1, nums, sum);
-    }
+        int take = helper(nums, i+2, dp) + nums[i];
 
-    // Top Down DP 
-    int helperDP(int n, vector<int> &nums, vector<int> & dp) {
-        // base case
-        if(n < 0) {
-            return 0;
-        }
+        int notTake = notTake = helper(nums, i+1, dp);
 
-        // dp
-        if(dp[n] != -1) return dp[n];
-
-        // Take
-        int t = helperDP(n-2, nums, dp) + nums[n];
-
-        // Not Take
-        int nt = helperDP(n-1, nums, dp);
-
-        return dp[n] = max(t, nt);
+        return dp[i] = max(take, notTake);
     }
 
     int rob(vector<int>& nums) {
-        // helperRec(0, nums, 0);
-        // return maxSum;
+        int n = nums.size();
+        vector<int> dp(n, -1);
 
-        // Top Down DP
-        // int n = nums.size()-1;
-        // vector<int> dp(n+1, -1);
-        // return helperDP(n, nums, dp);
+        // It can choose to rob the current idx or skip it and choose to rob the next one
 
-        // Bottom Up DP
-        // int n = nums.size();
-        // if(n == 0) return 0;
-        // if(n == 1) return nums[0];
-
-        // vector<int> dp(n, 0);
-        // dp[0] = nums[0];
-        // dp[1] = max(nums[0], nums[1]);
-        
-        // for(int i=2; i<n; i++) {
-        //     int nt = dp[i-1];
-        //     int t = dp[i-2] + nums[i];
-        //     dp[i] = max(t, nt);
-        // } 
-
-        // return dp[n-1];
-
-        // Space optimization
-        int prev2 = 0, prev1 = 0;
-        for (int num : nums) {
-            int curr = max(prev1, prev2 + num);
-            prev2 = prev1;
-            prev1 = curr;
-        }
-        return prev1;
+        return helper(nums, 0, dp);
     }
 };
