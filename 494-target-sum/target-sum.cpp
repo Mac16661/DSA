@@ -1,27 +1,23 @@
 class Solution {
 public:
-    int helper(int idx, int sum, vector<int>& nums, int target, vector<vector<int>>& dp, int offset) {
-        if (idx == nums.size()) {
-            return (sum == target) ? 1 : 0;
+    int cnt;
+    void helper(vector<int>& nums, int t, int i, int sum) {
+        if(i >= nums.size()) {
+            // cout<<sum<< " ->  "<<t<<endl;
+            if(sum == t) cnt++;
+            return;
         }
 
-        if (dp[idx][sum + offset] != -1) return dp[idx][sum + offset];
+        // plus
+        helper(nums, t, i+1, sum + nums[i]);
 
-        int add = helper(idx + 1, sum + nums[idx], nums, target, dp, offset);
-        int sub = helper(idx + 1, sum - nums[idx], nums, target, dp, offset);
-
-        return dp[idx][sum + offset] = add + sub;
+        // minus
+        helper(nums, t, i+1, sum - nums[i]);
     }
 
     int findTargetSumWays(vector<int>& nums, int target) {
-        int total = 0;
-        for (int x : nums) total += x;
-
-        if (abs(target) > total) return 0;
-
-        int offset = total; 
-        vector<vector<int>> dp(nums.size(), vector<int>(2 * total + 1, -1));
-
-        return helper(0, 0, nums, target, dp, offset);
+        cnt = 0;
+        helper(nums, target, 0, 0);
+        return cnt;
     }
 };
