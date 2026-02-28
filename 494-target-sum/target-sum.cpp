@@ -1,23 +1,22 @@
 class Solution {
 public:
-    int cnt;
-    void helper(vector<int>& nums, int t, int i, int sum) {
-        if(i >= nums.size()) {
-            // cout<<sum<< " ->  "<<t<<endl;
-            if(sum == t) cnt++;
-            return;
+    int helper(vector<int>& nums, int idx,int sum, int target) {
+        if(idx >= nums.size()) {
+            if(sum == target) return 1;
+            return 0;
         }
 
-        // plus
-        helper(nums, t, i+1, sum + nums[i]);
+        // add
+        int add = helper(nums, idx+1, sum + nums[idx], target);
 
-        // minus
-        helper(nums, t, i+1, sum - nums[i]);
+        // Sub
+        int sub = helper(nums, idx+1, sum - nums[idx], target);
+
+        return add + sub;
     }
+    
 
     int findTargetSumWays(vector<int>& nums, int target) {
-        cnt = 0;
-        helper(nums, target, 0, 0);
-        return cnt;
+        return helper(nums, 0, 0, target);
     }
 };
