@@ -1,37 +1,35 @@
 class Solution {
 public:
+    int helper(vector<int>& coins,
+               vector<vector<int>>& dp,
+               int idx,
+               int remaining) {
+
+        if (remaining == 0)
+            return 0;
+
+        if (idx < 0 || remaining < 0)
+            return 1e9;   // large number instead of INT_MAX
+
+        if (dp[idx][remaining] != -1)
+            return dp[idx][remaining];
+
+        // Not take
+        int notTake = helper(coins, dp, idx - 1, remaining);
+
+        // Take (unbounded, so stay at same index)
+        int take = 1 + helper(coins, dp, idx, remaining - coins[idx]);
+
+        return dp[idx][remaining] = min(notTake, take);
+    }
+
     int coinChange(vector<int>& coins, int amount) {
-        // greedy wont work in this problem need dp
-        // if(amount==0) return amount;
-        // int count = 0;
-        // int i=0;
+        int n = coins.size();
 
-        // sort(coins.begin(), coins.end(), greater<int>());
+        vector<vector<int>> dp(n, vector<int>(amount + 1, -1));
 
-        // while(amount > 0 && i<coins.size()){
-        //     cout<<amount<<endl;
-        //     if(coins[i] <= amount){
-        //         amount -= coins[i];
-        //         count++;
-        //     }else i++;
-        // }
+        int res = helper(coins, dp, n - 1, amount);
 
-        // if(amount > 0) return -1;
-
-        // return count;
-
-        const int INF = 1e9;  // A large number representing "infinity"
-        vector<int> dp(amount + 1, INF);
-        dp[0] = 0;
-
-        for (int coin : coins) {
-            for (int i = coin; i <= amount; ++i) {
-                if (dp[i - coin] != INF) {
-                    dp[i] = min(dp[i], dp[i - coin] + 1);
-                }
-            }
-        }
-
-        return dp[amount] == INF ? -1 : dp[amount];        
+        return res >= 1e9 ? -1 : res;
     }
 };
