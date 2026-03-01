@@ -1,44 +1,39 @@
-#include <vector>
-#include <queue>
-
-using namespace std;
-
 class Solution {
 public:
-    vector<vector<int>> floodFill(vector<vector<int>>& image,
-                                  int sr, int sc, int newColor) {
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        // BFS based
+        int n = image.size();
+        int m = image[0].size();
+        int srcColor = image[sr][sc];
 
-        int n = image.size();          
-        int m = image[0].size();       
-        int oldColor = image[sr][sc];  
-        if (oldColor == newColor)      
-            return image;
+        if (srcColor == color)  return image; // Do we need this?
 
-        queue<pair<int,int>> q;
+        queue<pair<int, int>> q;
+        image[sr][sc] = color;
         q.push({sr, sc});
-        image[sr][sc] = newColor;      
 
-        const int dx[] = {0, 0, -1, 1};
-        const int dy[] = {1, -1, 0, 0};
+        vector<pair<int, int>> dir =  {
+            {1,0}, {-1,0}, {0,1}, {0,-1}
+        };
 
         while (!q.empty()) {
-            auto [x, y] = q.front();
+            int size = q.size(); // if want to traverse level wise
+            auto [r, c] = q.front();
             q.pop();
 
-            for (int i = 0; i < 4; ++i) {
-                int nx = x + dx[i];
-                int ny = y + dy[i];
+                for(auto d:dir) {
+                    int nr = r + d.first;
+                    int nc = c + d.second;
 
-                if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-                    continue;
-
-                
-                if (image[nx][ny] == oldColor) {
-                    image[nx][ny] = newColor;
-                    q.push({nx, ny});
+                    // Trying to move in all directions []image[nr][nc] == srcColor] that what stop this alog to go in infinite loop
+                    if(nr >= 0 && nr < n && nc >= 0 && nc < m && image[nr][nc] == srcColor) {
+                        q.push({nr, nc});
+                        image[nr][nc] = color;
+                    }
                 }
-            }
+            
         }
+
         return image;
     }
 };
