@@ -1,38 +1,39 @@
 class Solution {
 public:
+    bool dfs(int node, vector<vector<int>>& graph, vector<int>&visited ) {
+        visited[node] = 2; // under processing
+
+        for (auto neigh: graph[node]) {
+            if(visited[neigh] == 2)
+                return false;
+            
+            if(visited[neigh] == 0 && !dfs(neigh, graph, visited))
+                return false;
+        }
+
+        visited[node] = 1;
+        return true;
+    }
+
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        // building grpah
-        int n = numCourses;
+         // Dfs cycle detection
+        int n =  numCourses;
         vector<vector<int>> graph(n);
-        vector<int> indegree(n, 0);
 
-        for(auto &edge: prerequisites) {
-            int u = edge[0];
-            int v = edge[1];
-
-            graph[v].push_back(u);
-            indegree[u]++; // indegree 
+        for(auto edge: prerequisites) {
+            graph[edge[0]].push_back(edge[1]);
+            // graph[edge[1]].push_back(edge[0]);
         }
 
-        // topo sort
-        vector<int> topo;
-        queue<int> q;
+        vector<int> visited(n, 0);
+
         for(int i=0; i<n; i++) {
-            if(indegree[i] == 0) q.push(i);
-        }
-
-        while(!q.empty()) {
-            int node = q.front();
-            q.pop();
-            topo.push_back(node);
-
-            for(int neigh: graph[node]) {
-                indegree[neigh]--;
-                if(indegree[neigh] == 0) q.push(neigh);
+            if(visited[i] == 0) {
+                if(!dfs(i, graph, visited))
+                    return false;
             }
         }
 
-        if(n==topo.size()) return true;
-        return false;
+        return true;
     }
 };
