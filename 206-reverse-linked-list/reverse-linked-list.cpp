@@ -10,26 +10,18 @@
  */
 class Solution {
 public:
-    // ListNode* reverseList(ListNode* head) {
-    //     if(!head || !head->next) return head;
-
-    //     ListNode* newNode = reverseList(head->next);
-
-    //     head->next->next = head;
-    //     head->next=nullptr;
-
-    //     return newNode;
-    // }
-
     ListNode* reverseList(ListNode* head) {
-        ListNode* prev = nullptr;
-        ListNode* curr = head;
+        // Doing the iterative version
+        if (!head or !head->next)
+            return head;
 
-        while(curr != nullptr) {
-            ListNode* temp = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = temp;
+        ListNode* prev = nullptr;
+
+        while (head != nullptr) {
+            ListNode* temp = head->next;
+            head->next = prev;
+            prev = head;
+            head = temp;
         }
 
         return prev;
