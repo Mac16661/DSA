@@ -10,7 +10,22 @@
  */
 class Solution {
 public:
+    ListNode* helper(ListNode* head) {
+        if (!head or !head->next)
+            return head;
+        
+        ListNode* newNode = helper(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+
+        return newNode;
+    }
+
     ListNode* reverseList(ListNode* head) {
+        // Recursive version
+        return helper(head);
+
+        // ============================================
         // Doing the iterative version
         if (!head or !head->next)
             return head;
