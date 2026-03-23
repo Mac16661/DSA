@@ -10,21 +10,35 @@
  */
 class Solution {
 public:
-    ListNode* helper(ListNode* head, ListNode* prev) {
-        if(head->next == nullptr){
-            head->next = prev;
+    ListNode* helper(ListNode* head) {
+        if (!head or !head->next)
             return head;
-        }
-
-        ListNode* newNode = helper(head->next, head);
-        head->next = prev;
+        
+        ListNode* newNode = helper(head->next);
+        head->next->next = head;
+        head->next = nullptr;
 
         return newNode;
     }
-    
-    ListNode* reverseList(ListNode* head) {
-        if(head == nullptr) return head;
 
-        return helper(head,  nullptr); 
+    ListNode* reverseList(ListNode* head) {
+        // Recursive version
+        return helper(head);
+
+        // ============================================
+        // Doing the iterative version
+        if (!head or !head->next)
+            return head;
+
+        ListNode* prev = nullptr;
+
+        while (head != nullptr) {
+            ListNode* temp = head->next;
+            head->next = prev;
+            prev = head;
+            head = temp;
+        }
+
+        return prev;
     }
 };

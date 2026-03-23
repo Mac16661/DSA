@@ -1,26 +1,47 @@
 class Solution {
 public:
-    string ans = "";
-
-    void expand(string &s , int left ,int right)
-    {
-        while(left >= 0 &&  right < s.size())
-        {
-            if(s[left] != s[right])
-                break;
-            left--,right++;
+    bool check(string s, int i, int j) {
+        while(i<=j){ 
+            if(s[i] != s[j]) 
+                return false;
+            i++;
+            j--;
         }
-        if(ans.size() < right - left )
-            ans = s.substr(left + 1 , right - left - 1);
+        return true;
     }
 
-    // Select substring
     string longestPalindrome(string s) {
-        for(int i = 0 ; i < s.size() ; i++)
-        {
-            expand(s , i , i);
-            expand(s , i , i+1);
+        int n = s.size();
+        int maxL = 0;
+        string ans;
+
+        // we are basically expandig in both direction from the ith pos and checking if s[l] == s[r]
+        for(int i=0; i<n; i++) {
+            int l=i,r=i;
+
+            // for odd one
+            while(l >= 0 && r<n && s[l] == s[r]){
+                if(r-l+1 > maxL) {
+                    maxL = r-l+1;
+                    ans = s.substr(l, r-l+1);
+                }
+                l--;
+                r++;
+            }
+
+            l=i,r=i+1;
+
+            // for even one
+            while(l >= 0 && r<n && s[l] == s[r]){
+                if(r-l+1 > maxL) {
+                    maxL = r-l+1;
+                    ans = s.substr(l, r-l+1);
+                }
+                l--;
+                r++;
+            }
         }
+
         return ans;
     }
 };

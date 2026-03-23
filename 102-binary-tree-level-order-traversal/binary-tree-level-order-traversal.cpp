@@ -12,37 +12,32 @@
 class Solution {
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> ans;
-
-        if(root == nullptr) return ans;
+        vector<vector<int>> tree;
+        if(root == nullptr) return tree;
 
         queue<TreeNode*> q;
-
-        // Push the root node into the queue
         q.push(root);
+        int l = 0;
 
+        // bfs traversal
         while(!q.empty()) {
             int size = q.size();
             vector<int> level;
 
-            // Traverse till queue have elements
+            // loop
             for(int i=0; i<size; i++) {
-                // Fetching the elemet and push it into the level
                 TreeNode* node = q.front();
                 q.pop();
                 level.push_back(node->val);
 
-                // Checking if it has right and left if yes push it into the queue
-                if(node->left != nullptr){
-                    q.push(node->left);
-                }
-
-                if(node->right != nullptr){
-                    q.push(node->right);
-                }
+                if(node->left != nullptr) q.push(node->left);
+                if(node->right != nullptr) q.push(node->right);
             }
-            ans.push_back(level);     
+
+            tree.push_back(level);
+            l++; // level
         }
-        return ans;
+
+        return tree;
     }
 };

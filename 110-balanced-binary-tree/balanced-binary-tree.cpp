@@ -12,19 +12,19 @@
 class Solution {
 public:
     int helper(TreeNode* root) {
-        if(root == NULL) return 0;
+        if(root == nullptr) return 0;
 
         int left = helper(root->left);
         int right = helper(root->right);
 
-        if(left == -1 || right == -1 || abs(left-right) > 1) {
-            return -1;
-        }
+        if(left == -1 || right ==-1 || abs(left - right) > 1 ) return -1;
 
-        return max(left,right) +1;
+        return max(left, right) +1;
     }
 
     bool isBalanced(TreeNode* root) {
+        if(root == nullptr) return true;
+
         int res = helper(root);
 
         if (res == -1) return false;

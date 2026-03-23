@@ -1,24 +1,22 @@
 class Solution {
 public:
-     int subarraySum(vector<int>& nums, int k) {
-        map<int,vector<int>> mp;
-        int sum=0;
-        int count=0;
-        for(int i=0;i<nums.size();i++)
-        {
-            sum+=nums[i];
-            if(sum == k)
-            {
-                count++;
-            }
-            int remaining=sum-k;
-            if(mp.find(remaining) != mp.end())
-            {
-                count+=mp[remaining].size();
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> prevSums;
+        prevSums[0] = 1; // Base case: a sum of 0 has been seen once
+        
+        int count = 0;
+        int currentSum = 0;
+        
+        for (int x : nums) {
+            currentSum += x;
+           
+            if (prevSums.find(currentSum - k) != prevSums.end()) {
+                count += prevSums[currentSum - k];
             }
             
-            mp[sum].push_back(i);
+            prevSums[currentSum]++;
         }
+        
         return count;
     }
 };

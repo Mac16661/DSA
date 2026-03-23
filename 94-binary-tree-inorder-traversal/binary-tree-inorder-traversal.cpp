@@ -11,20 +11,65 @@
  */
 class Solution {
 public:
-    vector<int> ans;
+    void helper(TreeNode* root, vector<int>& tree) {
+        if(root == nullptr) return;
 
-    void helper(TreeNode* root) {
-        if(root == NULL) {
-            return;
-        }
+        // left
+        helper(root->left, tree);
 
-        helper(root->left);
-        ans.push_back(root->val);
-        helper(root->right);
+        // root
+        tree.push_back(root->val);
+
+        // right
+        helper(root->right, tree);
     }
 
     vector<int> inorderTraversal(TreeNode* root) {
-        helper(root);
-        return ans;
+        vector<int> tree;
+        // if(root == nullptr) return tree;
+
+        // helper(root, tree);
+        // return tree;
+
+        // iterative preorder traversal
+        // if(root == nullptr) return tree;
+        // stack<TreeNode*> st;
+        // st.push(root);
+
+        // while(!st.empty) {
+        //     TreeNode* temp = st.top();
+        //     st.pop();
+
+        //     tree.push_back(temp->val);
+
+        //     if(temp->right) st.push(temp->right);
+        //     if(temp->left) st.push(temp->left);
+        // }
+        // return tree;
+
+        // iterative inorder
+        if(root == nullptr) return tree;
+        stack<TreeNode*> st;
+        TreeNode* curr = root;
+
+        while(curr || !st.empty()) {
+            // push all possible left nodes 
+            while(curr != nullptr) {
+                st.push(curr);
+                curr = curr->left;
+            }
+
+            curr = st.top();
+            st.pop();
+
+            tree.push_back(curr->val);
+
+            // move to right node
+            curr = curr->right;
+        }
+
+        return tree;
     }
+
+    
 };

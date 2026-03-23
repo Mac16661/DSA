@@ -11,21 +11,17 @@
  */
 class Solution {
 public:
+    // doing a preorder traversal on both 
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        if(p == NULL or q == NULL) {
-            if(p!=q) return false;
-            return true;
+        // base case
+        if(p == nullptr || q == nullptr) {
+            if(p == q) return true;
+            return false; // if both are not null
         }
 
         if(p->val != q->val) return false;
-
-        if(!isSameTree(p->left, q->left)) {
-            return false;
-        }
-
-        if(!isSameTree(p->right, q->right)) {
-            return false;
-        }
+        if(!isSameTree(p->left, q->left)) return false;
+        if(!isSameTree(p->right, q->right)) return false;
 
         return true;
     }

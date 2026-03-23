@@ -1,25 +1,33 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int n = height.size();
-        vector<int> left(height), right(height); // prefix and suffix sum
-        int ans = 0;
+        if (height.empty()) return 0;
 
-        for(int i=1; i<n; i++) {
-            left[i] = max(left[i], left[i-1]);
-        }
-        for(int i=n-2; i>=0; i--) {
-            right[i] = max(right[i], right[i+1]);
+        int left = 0, right = height.size() - 1;
+        int leftMax = 0, rightMax = 0;
+        int totalWater = 0;
+
+        while (left < right) {
+            // Logic: The water level at any point is limited by the shorter side.
+            if (height[left] < height[right]) {
+                // If current height is >= leftMax, we can't trap water, just update max.
+                if (height[left] >= leftMax) {
+                    leftMax = height[left];
+                } else {
+                    // Otherwise, we trap the difference.
+                    totalWater += leftMax - height[left];
+                }
+                left++;
+            } else {
+                if (height[right] >= rightMax) {
+                    rightMax = height[right];
+                } else {
+                    totalWater += rightMax - height[right];
+                }
+                right--;
+            }
         }
 
-        // for(auto i : left) cout<<i;
-        // cout<<endl;
-        // for(auto i : right) cout<<i;
-
-        for(int i=0; i<n; i++) {
-            int water = min(left[i], right[i]);
-            if(water >= height[i]) ans += water - height[i];
-        }
-        return ans;
+        return totalWater;
     }
 };

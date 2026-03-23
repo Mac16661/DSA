@@ -11,20 +11,12 @@
  */
 class Solution {
 public:
-    void dfs(TreeNode* root, int &maxi, int cnt) {
-        if(root == NULL) {
-            return;
-        }
-
-        maxi = max(maxi, cnt);
-
-        dfs(root->left, maxi, cnt+1);
-        dfs(root->right, maxi, cnt+1);
-    }
-
     int maxDepth(TreeNode* root) {
-        int maxi = 0;
-        dfs(root, maxi, 1);
-        return maxi;
+        if(root == nullptr) return 0;
+
+        int leftD = maxDepth(root->left);
+        int rightD = maxDepth(root->right);
+
+        return max(leftD, rightD) + 1;
     }
 };

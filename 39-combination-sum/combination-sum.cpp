@@ -1,26 +1,26 @@
 class Solution {
 public:
-    void bt(vector<int>& arr, int target, vector<vector<int>> &ans, vector<int> &ds, int ind) {
-        if(ind == arr.size()) {
-            if(target == 0) {
-                ans.push_back(ds);
-            }
+    void helper(vector<int>& arr, int target, vector<int> & ds, vector<vector<int>>& ans, int idx, int sum){
+        if(sum == target) {
+            ans.push_back(ds);
             return;
         }
 
-        if(arr[ind] <= target) {
-            ds.push_back(arr[ind]);
-            bt(arr, target-arr[ind], ans, ds, ind);
-            ds.pop_back();
-        }
+        for(int i=idx; i < arr.size(); i++) {
 
-        bt(arr, target, ans, ds, ind+1);
+            if(sum+arr[i] <= target) {
+                ds.push_back(arr[i]);
+                helper(arr, target, ds, ans, i, sum+arr[i]);
+                ds.pop_back();
+            }
+        }
     }
 
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<vector<int>> ans;
         vector<int> ds;
-        bt(candidates, target, ans, ds, 0);
+        vector<vector<int>> ans;
+
+        helper(candidates, target, ds, ans, 0, 0);
         return ans;
     }
 };

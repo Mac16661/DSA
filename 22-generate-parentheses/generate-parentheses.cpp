@@ -1,26 +1,26 @@
 class Solution {
 public:
-    vector<string> arr;
-    void helper(string s, int i, int open, int close, int n) {
-        if(close == n) {
-            arr.push_back(s);
+    void helper(vector<string>& ans, int open, int close, int n, string s, int i) {
+        if(i == s.size()) {
+            ans.push_back(s);
             return;
         }
 
-        if(open < n) {
+        if(open < n){
             s[i] = '(';
-            helper(s, i+1, open+1, close, n);
+            helper(ans, open+1, close, n, s, i+1);
         }
 
-        if(close < open) {
+        if(open > close) {
             s[i] = ')';
-            helper(s, i+1, open, close+1, n);
+            helper(ans, open, close+1, n , s, i+1);
         }
     }
 
     vector<string> generateParenthesis(int n) {
+        vector<string> ans;
         string s(n*2, ' ');
-        helper(s, 0, 0, 0, n);
-        return arr;
+        helper(ans, 0, 0, n, s, 0);
+        return ans;
     }
 };

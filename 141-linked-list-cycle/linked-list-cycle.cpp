@@ -9,16 +9,19 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        if(head==nullptr) return false;
-        // optimal 
-        ListNode* fast = head;
+        if (!head or !head->next)
+            return false;
+
+        // Fast and slow ptr
+        ListNode* fast = head->next;
         ListNode* slow = head;
 
-        while(fast != nullptr && fast->next != nullptr) {
-            slow = slow->next;
-            fast = fast->next->next;
+        while (fast != nullptr and fast->next != nullptr) {
+            if (fast == slow)
+                return true;
 
-            if(fast == slow) return true;
+            fast = fast->next->next;
+            slow = slow->next;
         }
 
         return false;
