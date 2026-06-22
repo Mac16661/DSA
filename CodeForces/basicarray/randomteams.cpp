@@ -13,7 +13,7 @@ int main() {
     ll r = n % m;
     ll min_pairs = r * (k + 1) * k / 2 + (m - r) * k * (k - 1) / 2;
 
-    // Maximum calculation
+    // Maximum cal
     ll i = n - (m - 1);
     ll max_pairs = i * (i - 1) / 2;
 
